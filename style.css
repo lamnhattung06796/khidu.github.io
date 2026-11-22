@@ -1,0 +1,100 @@
+/* ==========================================================================
+   CUSTOM CSS - ĐÀ LẠT TRAVEL (MISTY & PINE)
+   Lưu ý: Dự án sử dụng Tailwind CSS CDN cho các utility class chính.
+   File style.css này chứa các cấu hình biến màu, font chữ, thanh cuộn,
+   hiệu ứng bổ sung và quy tắc in ấn (Print CSS).
+   ========================================================================== */
+
+:root {
+    --font-serif: 'Playfair Display', serif;
+    --font-sans: 'Plus Jakarta Sans', sans-serif;
+
+    /* Bảng màu chủ đạo (Pine & Dã Quỳ) */
+    --color-pine-50: #f0fdf4;
+    --color-pine-100: #dcfce7;
+    --color-pine-500: #10b981;
+    --color-pine-600: #059669;
+    --color-pine-700: #047857;
+    --color-pine-800: #065f46;
+    --color-pine-900: #064e3b;
+
+    --color-daquy-400: #fbbf24;
+    --color-daquy-500: #f59e0b;
+    --color-daquy-600: #d97706;
+
+    --color-cream: #FAF9F6;
+}
+
+/* Cuộn mượt toàn trang */
+html {
+    scroll-behavior: smooth;
+    font-family: var(--font-sans);
+}
+
+/* Tùy chỉnh thanh cuộn (Custom Scrollbar) */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-cream);
+}
+
+.dark ::-webkit-scrollbar-track {
+    background: #020617; /* slate-950 */
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-pine-700);
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-pine-600);
+}
+
+/* Hiệu ứng kính mờ bổ sung (Glassmorphism fallback) */
+.glass-panel {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* Quy tắc định dạng khi người dùng bấm nút "In lịch trình" (window.print) */
+@media print {
+    header,
+    #home,
+    #destinations,
+    #tours,
+    #cuisine,
+    #reviews,
+    footer,
+    #side-drawer,
+    #side-drawer-overlay,
+    #detail-modal,
+    #toast-container,
+    #planner button,
+    #planner select,
+    #planner label {
+        display: none !important;
+    }
+
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
+    }
+
+    #planner {
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+    }
+
+    #itinerary-result > div {
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+        page-break-inside: avoid;
+        margin-bottom: 16px;
+    }
+}

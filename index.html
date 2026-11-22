@@ -47,9 +47,11 @@
             }
         }
     </script>
+
+    <!-- Custom CSS File -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-cream text-slate-800 font-sans antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100 selection:bg-pine-600 selection:text-white">
-
     <!-- ==================== 1. HEADER & NAVIGATION ==================== -->
     <header id="navbar" class="fixed top-0 inset-x-0 z-40 transition-all duration-300 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +66,6 @@
                         <span class="text-[11px] uppercase tracking-widest text-pine-600 dark:text-pine-400 font-semibold">Misty & Pine</span>
                     </div>
                 </a>
-
                 <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
                     <a href="#home" class="text-slate-700 hover:text-pine-700 dark:text-slate-300 dark:hover:text-pine-400 transition-colors">Trang chủ</a>
@@ -74,27 +75,23 @@
                     <a href="#planner" class="text-slate-700 hover:text-pine-700 dark:text-slate-300 dark:hover:text-pine-400 transition-colors">Lịch trình gợi ý</a>
                     <a href="#reviews" class="text-slate-700 hover:text-pine-700 dark:text-slate-300 dark:hover:text-pine-400 transition-colors">Đánh giá</a>
                 </nav>
-
                 <!-- Action Buttons -->
                 <div class="flex items-center gap-2 sm:gap-3">
                     <!-- Dark/Light Mode Toggle -->
                     <button id="theme-toggle" aria-label="Chuyển đổi giao diện Sáng/Tối" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 transition-colors">
                         <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
                     </button>
-
                     <!-- Wishlist Button -->
                     <button onclick="openDrawer('wishlist')" aria-label="Danh sách yêu thích" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
                         <i class="fa-regular fa-heart text-base text-rose-500"></i>
                         <span id="wishlist-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center shadow">0</span>
                     </button>
-
                     <!-- Booking Cart Button -->
                     <button onclick="openDrawer('cart')" class="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-pine-800 hover:bg-pine-700 text-white text-sm font-semibold shadow-sm transition-all">
                         <i class="fa-solid fa-suitcase-rolling"></i>
                         <span class="hidden sm:inline">Đặt Tour</span>
                         <span id="cart-badge" class="w-5 h-5 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold flex items-center justify-center">0</span>
                     </button>
-
                     <!-- Mobile Menu Toggle -->
                     <button id="mobile-menu-btn" aria-label="Mở menu" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
                         <i class="fa-solid fa-bars text-lg"></i>
@@ -102,7 +99,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Mobile Navigation Drawer -->
         <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-6 space-y-2 shadow-xl">
             <a href="#home" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-pine-50 dark:hover:bg-slate-800 font-medium">Trang chủ</a>
@@ -113,7 +109,6 @@
             <a href="#reviews" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-pine-50 dark:hover:bg-slate-800 font-medium">Đánh giá & Liên hệ</a>
         </div>
     </header>
-
     <!-- ==================== 2. HERO SECTION ==================== -->
     <section id="home" class="relative pt-20 min-h-[92vh] flex items-center justify-center overflow-hidden">
         <!-- Background Image with Overlay -->
@@ -124,22 +119,18 @@
                  class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
             <div class="absolute inset-0 bg-gradient-to-b from-slate-950/65 via-slate-900/45 to-cream dark:to-slate-950"></div>
         </div>
-
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center text-white">
             <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-amber-200 text-xs sm:text-sm font-medium mb-6">
                 <i class="fa-solid fa-sparkles text-daquy-400"></i>
                 <span>Mùa Hoa Dã Quỳ & Săn Mây Đẹp Nhất Năm</span>
             </div>
-
             <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight max-w-4xl mx-auto drop-shadow-md">
                 Chạm Vào Sương Mù, <br class="hidden sm:inline" />
                 <span class="text-daquy-400 italic">Lạc Giữa Ngàn Thông</span>
             </h1>
-
             <p class="mt-6 text-base sm:text-lg md:text-xl text-slate-100/90 max-w-2xl mx-auto font-normal leading-relaxed">
                 Khám phá vẻ đẹp bình yên của thành phố ngàn hoa qua những cung đường săn mây, đồi thông vi vu, kiến trúc Pháp cổ kính và hương vị ẩm thực ấm nồng.
             </p>
-
             <!-- Quick Search Bar -->
             <div class="mt-10 max-w-4xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-3 sm:p-4 rounded-2xl shadow-2xl border border-white/20 text-left">
                 <form id="hero-search-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
@@ -150,7 +141,6 @@
                         </label>
                         <input type="text" id="search-keyword" placeholder="VD: Đồi Đa Phú, Thác Datanla..." class="w-full bg-transparent text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none">
                     </div>
-
                     <!-- Category -->
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-pine-700 dark:text-pine-400 mb-1">
@@ -164,7 +154,6 @@
                             <option value="cafe" class="dark:bg-slate-800">Cà phê chill</option>
                         </select>
                     </div>
-
                     <!-- Duration -->
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-pine-700 dark:text-pine-400 mb-1">
@@ -176,7 +165,6 @@
                             <option value="4N3D" class="dark:bg-slate-800">4 Ngày 3 Đêm</option>
                         </select>
                     </div>
-
                     <!-- CTA Button -->
                     <button type="submit" class="w-full h-full min-h-[54px] rounded-xl bg-gradient-to-r from-pine-700 to-pine-800 hover:from-pine-600 hover:to-pine-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-pine-700/30 transition-all">
                         <i class="fa-solid fa-magnifying-glass"></i>
@@ -186,7 +174,6 @@
             </div>
         </div>
     </section>
-
     <!-- ==================== 3. WEATHER WIDGET (THỜI TIẾT ĐÀ LẠT) ==================== -->
     <section class="relative z-20 -mt-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6">
@@ -214,7 +201,6 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Metrics & Outfit Recommendation -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-auto border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100 dark:border-slate-800">
                     <div class="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60">
@@ -224,7 +210,6 @@
                             <p id="weather-humidity" class="text-sm font-semibold text-slate-800 dark:text-slate-200">84% • Gió nhẹ 9 km/h</p>
                         </div>
                     </div>
-
                     <div class="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200/60 dark:border-amber-800/40">
                         <i class="fa-solid fa-shirt text-daquy-600 dark:text-daquy-400 text-lg"></i>
                         <div>
@@ -236,7 +221,6 @@
             </div>
         </div>
     </section>
-
     <!-- ==================== 4. DESTINATIONS (ĐIỂM ĐẾN NỔI BẬT) ==================== -->
     <section id="destinations" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
@@ -244,7 +228,6 @@
                 <span class="text-xs font-bold uppercase tracking-widest text-pine-700 dark:text-pine-400">Khám Phá Vùng Đất Lạnh</span>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">Điểm Đến Nổi Bật Tại Đà Lạt</h2>
             </div>
-
             <!-- Category Filter Pills -->
             <div id="destination-filters" class="flex flex-wrap gap-2">
                 <button onclick="filterDestinations('all')" class="filter-pill active px-4 py-2 rounded-full text-sm font-semibold bg-pine-800 text-white shadow-sm transition-all" data-cat="all">Tất cả</button>
@@ -254,13 +237,11 @@
                 <button onclick="filterDestinations('cafe')" class="filter-pill px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-pine-600 transition-all" data-cat="cafe">Cà phê chill</button>
             </div>
         </div>
-
         <!-- Destinations Grid -->
         <div id="destinations-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
             <!-- Rendered dynamically via JS -->
         </div>
     </section>
-
     <!-- ==================== 5. TOURS & PACKAGES (TOUR & TRẢI NGHIỆM) ==================== -->
     <section id="tours" class="py-20 bg-pine-50/70 dark:bg-slate-900/50 border-y border-slate-200/60 dark:border-slate-800/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -269,13 +250,11 @@
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">Tour & Trải Nghiệm Bản Địa</h2>
                 <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm sm:text-base">Lịch trình được thiết kế tinh tế bởi thổ địa Đà Lạt, bao gồm xe đưa đón tận nơi, hướng dẫn viên nhiệt tình và vé tham quan.</p>
             </div>
-
             <div id="tours-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <!-- Rendered dynamically via JS -->
             </div>
         </div>
     </section>
-
     <!-- ==================== 6. LOCAL CUISINE (ẨM THỰC ĐÀ LẠT) ==================== -->
     <section id="cuisine" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
@@ -285,12 +264,10 @@
             </div>
             <p class="text-sm text-slate-600 dark:text-slate-400 max-w-md">Giữa tiết trời se lạnh 15°C, không gì tuyệt vời hơn việc thưởng thức những món ăn nóng hổi đặc trưng của phố núi.</p>
         </div>
-
         <div id="cuisine-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             <!-- Rendered dynamically via JS -->
         </div>
     </section>
-
     <!-- ==================== 7. INTERACTIVE ITINERARY PLANNER ==================== -->
     <section id="planner" class="py-20 bg-gradient-to-br from-pine-900 via-pine-800 to-slate-900 text-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -299,7 +276,6 @@
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold">Tự Thiết Kế Lịch Trình Đà Lạt</h2>
                 <p class="text-pine-100/80 mt-3 text-sm sm:text-base">Chọn quỹ thời gian và phong cách du lịch yêu thích, hệ thống sẽ gợi ý lịch trình chi tiết từng buổi dành riêng cho bạn.</p>
             </div>
-
             <!-- Controls -->
             <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
@@ -312,7 +288,6 @@
                             <button type="button" onclick="selectPlannerDay('4N3D')" class="planner-day-btn py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/20 transition-all" data-day="4N3D">4N3Đ</button>
                         </div>
                     </div>
-
                     <!-- Select Style -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-daquy-400 mb-2">2. Phong cách trải nghiệm</label>
@@ -323,7 +298,6 @@
                             <option value="food">Food Tour & Ẩm thực địa phương</option>
                         </select>
                     </div>
-
                     <!-- Generate & Action Buttons -->
                     <div class="flex gap-2">
                         <button type="button" onclick="generateItinerary()" class="flex-1 py-2.5 px-4 rounded-xl bg-pine-500 hover:bg-pine-400 text-slate-950 font-bold text-sm transition-all flex items-center justify-center gap-2">
@@ -337,7 +311,6 @@
                         </button>
                     </div>
                 </div>
-
                 <!-- Generated Itinerary Output -->
                 <div id="itinerary-result" class="mt-8 pt-8 border-t border-white/15 space-y-6">
                     <!-- Rendered dynamically via JS -->
@@ -345,7 +318,6 @@
             </div>
         </div>
     </section>
-
     <!-- ==================== 9. TESTIMONIALS & REVIEW FORM ==================== -->
     <section id="reviews" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -358,23 +330,19 @@
                     <!-- Rendered dynamically via JS -->
                 </div>
             </div>
-
             <!-- Right: Submit New Review Form (5 cols) -->
             <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 dark:border-slate-800 sticky top-28">
                 <h3 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">Chia Sẻ Kỷ Niệm Của Bạn</h3>
                 <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-6">Bạn vừa có chuyến đi đáng nhớ tại Đà Lạt? Hãy để lại đánh giá để truyền cảm hứng cho mọi người nhé!</p>
-
                 <form id="review-form" class="space-y-4">
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Họ và tên *</label>
                         <input type="text" id="rev-name" required placeholder="Nhập tên của bạn..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:border-pine-600">
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Điểm đến / Tour đã trải nghiệm</label>
                         <input type="text" id="rev-place" placeholder="VD: Tour Săn Mây Đồi Đa Phú" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:border-pine-600">
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Đánh giá sao</label>
                         <div id="star-rating-input" class="flex items-center gap-2 text-2xl text-daquy-500 cursor-pointer">
@@ -386,12 +354,10 @@
                         </div>
                         <input type="hidden" id="rev-rating" value="5">
                     </div>
-
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1.5">Cảm nhận chi tiết *</label>
                         <textarea id="rev-comment" rows="3" required placeholder="Chia sẻ trải nghiệm tuyệt vời của bạn tại Đà Lạt..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:border-pine-600"></textarea>
                     </div>
-
                     <button type="submit" class="w-full py-3 rounded-xl bg-pine-800 hover:bg-pine-700 text-white font-semibold text-sm shadow-md transition-all">
                         Gửi Đánh Giá Ngay
                     </button>
@@ -399,7 +365,6 @@
             </div>
         </div>
     </section>
-
     <!-- ==================== 10. FOOTER ==================== -->
     <footer class="bg-slate-950 text-slate-300 pt-16 pb-10 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -422,7 +387,6 @@
                         <a href="#" aria-label="YouTube" class="w-9 h-9 rounded-full bg-slate-900 hover:bg-pine-700 flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
-
                 <!-- Col 2: Quick Links -->
                 <div>
                     <h4 class="text-white font-bold uppercase tracking-wider text-xs mb-4">Khám Phá Nhanh</h4>
@@ -434,7 +398,6 @@
                         <li><a href="#reviews" class="hover:text-daquy-400 transition-colors">Đánh giá từ du khách</a></li>
                     </ul>
                 </div>
-
                 <!-- Col 3: Contact -->
                 <div>
                     <h4 class="text-white font-bold uppercase tracking-wider text-xs mb-4">Liên Hệ Hỗ Trợ</h4>
@@ -453,7 +416,6 @@
                         </li>
                     </ul>
                 </div>
-
                 <!-- Col 4: Newsletter -->
                 <div>
                     <h4 class="text-white font-bold uppercase tracking-wider text-xs mb-4">Nhận Bản Tin Ưu Đãi</h4>
@@ -466,7 +428,6 @@
                     </form>
                 </div>
             </div>
-
             <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
                 <p>© 2026 Đà Lạt Travel. Thiết kế với tình yêu dành cho Thành phố Ngàn Hoa.</p>
                 <div class="flex gap-6">
@@ -476,7 +437,6 @@
             </div>
         </div>
     </footer>
-
     <!-- ==================== MODAL: DESTINATION DETAIL ==================== -->
     <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
         <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 dark:border-slate-800">
@@ -496,7 +456,6 @@
                     </div>
                 </div>
                 <p id="modal-desc" class="text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed mt-4"></p>
-
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 text-sm">
                     <div>
                         <span class="text-xs text-slate-400 block">Địa chỉ</span>
@@ -507,7 +466,6 @@
                         <span id="modal-hours-price" class="font-semibold text-pine-700 dark:text-pine-400"></span>
                     </div>
                 </div>
-
                 <!-- Simulated Interactive Map Preview -->
                 <div class="mt-6 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-pine-50 dark:bg-slate-800 p-4 flex items-center justify-between">
                     <div class="flex items-center gap-3">
@@ -526,7 +484,6 @@
             </div>
         </div>
     </div>
-
     <!-- ==================== DRAWER: BOOKING CART & WISHLIST ==================== -->
     <div id="side-drawer-overlay" onclick="closeDrawer()" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs transition-opacity"></div>
     <aside id="side-drawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 transform translate-x-full transition-transform duration-300 flex flex-col">
@@ -540,13 +497,11 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-
         <!-- Drawer Body: Cart Tab -->
         <div id="drawer-cart-content" class="flex-1 overflow-y-auto p-5 space-y-5">
             <div id="cart-items-container" class="space-y-4">
                 <!-- Rendered via JS -->
             </div>
-
             <!-- Booking Customer Form -->
             <form id="checkout-form" class="hidden pt-5 border-t border-slate-200 dark:border-slate-800 space-y-3.5">
                 <h4 class="font-bold text-sm uppercase tracking-wider text-pine-700 dark:text-pine-400">Thông Tin Đặt Tour</h4>
@@ -557,18 +512,15 @@
                 </div>
                 <input type="email" id="cust-email" placeholder="Email nhận vé điện tử" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
                 <textarea id="cust-note" rows="2" placeholder="Ghi chú điểm đón tại Đà Lạt..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm"></textarea>
-
                 <div class="p-4 rounded-2xl bg-pine-50 dark:bg-pine-950/40 flex items-center justify-between">
                     <span class="text-sm font-semibold">Tổng thanh toán:</span>
                     <span id="cart-total-price" class="text-xl font-bold text-pine-800 dark:text-daquy-400">0đ</span>
                 </div>
-
                 <button type="submit" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-pine-700 to-pine-800 hover:from-pine-600 hover:to-pine-700 text-white font-bold text-sm shadow-lg transition-all">
                     Xác Nhận Đặt Tour Ngay
                 </button>
             </form>
         </div>
-
         <!-- Drawer Body: Wishlist Tab -->
         <div id="drawer-wishlist-content" class="hidden flex-1 overflow-y-auto p-5 space-y-4">
             <div id="wishlist-items-container" class="space-y-3">
@@ -576,10 +528,8 @@
             </div>
         </div>
     </aside>
-
     <!-- ==================== TOAST NOTIFICATION ==================== -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
     <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
         // -------------------- DATA --------------------
@@ -702,7 +652,6 @@
                 desc: 'Được mệnh danh là "trái tim của Đà Lạt", Hồ Xuân Hương sở hữu vẻ đẹp dịu dàng với mặt nước phẳng lặng hình trăng lưỡi liềm, bao quanh bởi những hàng thông xanh rì và thảm cỏ êm ái. Dù là tản bộ ngắm sương sớm, đạp vịt lúc chiều tà hay thưởng thức sữa đậu nành nóng bên bờ hồ về đêm, nơi đây luôn mang lại cảm giác bình yên và lãng mạn đặc trưng nhất của phố núi.'
             }
         ];
-
         const TOURS = [
             {
                 id: 'tour-1',
@@ -749,7 +698,6 @@
                 highlights: ['Tìm hiểu quy trình hái & rang xay cà phê Cầu Đất', 'Hái dâu tây công nghệ cao tại vườn', 'Check-in Cổng Trời Bali & Hồ Vô Cực']
             }
         ];
-
         const CUISINES = [
             {
                 name: 'Bánh Tráng Nướng',
@@ -832,7 +780,6 @@
                 image: 'https://mia.vn/media/uploads/blog-du-lich/lau-bo-ba-toa-2-1761092784.jpg'
             }
         ];
-
         const INITIAL_REVIEWS = [
             {
                 name: 'Minh Thư Nguyễn',
@@ -849,13 +796,11 @@
                 comment: 'Công cụ gợi ý lịch trình 3N2Đ trên web sắp xếp cung đường rất hợp lý, không bị chạy ngược đường nên tụi mình đi được nhiều điểm mà vẫn thong thả nghỉ ngơi.'
             }
         ];
-
         // -------------------- STATE --------------------
         let wishlist = JSON.parse(localStorage.getItem('dalat_wishlist') || '[]');
         let cart = JSON.parse(localStorage.getItem('dalat_cart') || '[]');
         let reviews = JSON.parse(localStorage.getItem('dalat_reviews') || JSON.stringify(INITIAL_REVIEWS));
         let currentPlannerDay = '3N2D';
-
         // -------------------- INITIALIZATION --------------------
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
@@ -867,7 +812,6 @@
             updateBadges();
             initStarRating();
         });
-
         // -------------------- 1. THEME (DARK/LIGHT MODE) --------------------
         function initTheme() {
             const savedTheme = localStorage.getItem('dalat_theme');
@@ -876,7 +820,6 @@
                 document.getElementById('theme-icon').className = 'fa-solid fa-sun text-base';
             }
         }
-
         document.getElementById('theme-toggle').addEventListener('click', () => {
             const html = document.documentElement;
             html.classList.toggle('dark');
@@ -884,7 +827,6 @@
             localStorage.setItem('dalat_theme', isDark ? 'dark' : 'light');
             document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-base' : 'fa-solid fa-moon text-base';
         });
-
         // Mobile Menu
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
@@ -892,17 +834,14 @@
         function closeMobileMenu() {
             document.getElementById('mobile-menu').classList.add('hidden');
         }
-
         // -------------------- 2. HERO SEARCH --------------------
         document.getElementById('hero-search-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const keyword = document.getElementById('search-keyword').value.trim().toLowerCase();
             const category = document.getElementById('search-category').value;
             const duration = document.getElementById('search-duration').value;
-
             // Sync duration with itinerary planner
             selectPlannerDay(duration);
-
             // Filter destinations
             let filtered = DESTINATIONS;
             if (category !== 'all') {
@@ -911,13 +850,11 @@
             if (keyword) {
                 filtered = filtered.filter(d => d.name.toLowerCase().includes(keyword) || d.desc.toLowerCase().includes(keyword));
             }
-
             updateFilterPillUI(category);
             renderDestinations(filtered);
             document.getElementById('destinations').scrollIntoView({ behavior: 'smooth' });
             showToast(`Tìm thấy ${filtered.length} điểm đến phù hợp!`, 'info');
         });
-
         // -------------------- 3. WEATHER WIDGET SIMULATION --------------------
         const WEATHER_DATA = {
             morning: {
@@ -942,7 +879,6 @@
                 icon: 'fa-solid fa-moon'
             }
         };
-
         function setWeatherTime(timeKey) {
             const data = WEATHER_DATA[timeKey];
             document.getElementById('weather-temp').textContent = data.temp;
@@ -950,7 +886,6 @@
             document.getElementById('weather-humidity').textContent = data.humidity;
             document.getElementById('weather-outfit').textContent = data.outfit;
             document.getElementById('weather-icon').className = data.icon;
-
             document.querySelectorAll('.weather-btn').forEach(btn => {
                 if (btn.dataset.time === timeKey) {
                     btn.className = 'weather-btn px-2 py-0.5 rounded bg-pine-700 text-white font-medium';
@@ -959,7 +894,6 @@
                 }
             });
         }
-
         // -------------------- 4. DESTINATIONS RENDER & FILTER --------------------
         function updateFilterPillUI(cat) {
             document.querySelectorAll('.filter-pill').forEach(btn => {
@@ -970,20 +904,17 @@
                 }
             });
         }
-
         function filterDestinations(cat) {
             updateFilterPillUI(cat);
             const list = cat === 'all' ? DESTINATIONS : DESTINATIONS.filter(d => d.category === cat);
             renderDestinations(list);
         }
-
         function renderDestinations(list) {
             const grid = document.getElementById('destinations-grid');
             if (list.length === 0) {
                 grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Không tìm thấy điểm đến phù hợp với từ khóa. Hãy thử từ khóa khác nhé!</div>`;
                 return;
             }
-
             grid.innerHTML = list.map(dest => {
                 const isLiked = wishlist.includes(dest.id);
                 return `
@@ -997,20 +928,17 @@
                             <i class="${isLiked ? 'fa-solid text-rose-500' : 'fa-regular text-slate-600 dark:text-slate-300'} fa-heart"></i>
                         </button>
                     </div>
-
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
                             <span class="whitespace-pre-line"><i class="fa-solid fa-ticket text-pine-600 mr-1"></i> ${dest.price}</span>
                             <span class="font-bold text-daquy-600 dark:text-daquy-400"><i class="fa-solid fa-star mr-1"></i>${dest.rating}</span>
                         </div>
-
                         <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white group-hover:text-pine-700 dark:group-hover:text-pine-400 transition-colors">
                             ${dest.name}
                         </h3>
                         <p class="text-sm text-slate-600 dark:text-slate-400 mt-2 line-clamp-2 flex-1">
                             ${dest.desc}
                         </p>
-
                         <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
                             <span class="text-xs text-slate-400 truncate max-w-[160px]"><i class="fa-solid fa-location-dot mr-1"></i>${dest.address.split(',')[0]}</span>
                             <button onclick="openDetailModal('${dest.id}')" class="px-4 py-2 rounded-xl bg-pine-50 hover:bg-pine-800 text-pine-800 hover:text-white dark:bg-slate-800 dark:text-pine-400 dark:hover:bg-pine-700 dark:hover:text-white text-xs font-bold transition-colors">
@@ -1022,7 +950,6 @@
                 `;
             }).join('');
         }
-
         // Destination Detail Modal
         function openDetailModal(id) {
             const dest = DESTINATIONS.find(d => d.id === id);
@@ -1037,18 +964,15 @@
             document.getElementById('modal-hours-price').classList.add('whitespace-pre-line');
             document.getElementById('modal-coords').textContent = `${dest.coords} • Đà Lạt, Lâm Đồng`;
             document.getElementById('modal-map-link').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest.name + ' Đà Lạt')}`;
-
             const modal = document.getElementById('detail-modal');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
-
         function closeDetailModal() {
             const modal = document.getElementById('detail-modal');
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
-
         // -------------------- 5. TOURS RENDER --------------------
         function renderTours() {
             const grid = document.getElementById('tours-grid');
@@ -1060,7 +984,6 @@
                             <i class="fa-regular fa-clock text-daquy-400 mr-1"></i>${tour.duration}
                         </span>
                     </div>
-
                     <div class="p-6 flex-1 flex flex-col justify-between">
                         <div>
                             <div class="flex items-center gap-1.5 text-xs text-daquy-600 dark:text-daquy-400 font-bold mb-1.5">
@@ -1071,7 +994,6 @@
                                 ${tour.highlights.map(h => `<li class="flex items-start gap-2"><i class="fa-solid fa-check text-pine-600 mt-0.5"></i><span>${h}</span></li>`).join('')}
                             </ul>
                         </div>
-
                         <div class="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
                             <div>
                                 <span class="text-[11px] text-slate-400 block">Giá từ</span>
@@ -1085,7 +1007,6 @@
                 </div>
             `).join('');
         }
-
         // -------------------- 6. CUISINE RENDER --------------------
         function renderCuisines() {
             const grid = document.getElementById('cuisine-grid');
@@ -1110,7 +1031,6 @@
                 </div>
             `).join('');
         }
-
         // -------------------- 7. INTERACTIVE ITINERARY PLANNER --------------------
         const ITINERARY_TEMPLATES = {
             chill: [
@@ -1138,7 +1058,6 @@
                 { day: 'Ngày 4: Bữa Sáng Thong Thả', morning: 'Thưởng thức Bánh mì xíu mại Hoàng Diệu trứ danh.', noon: 'Ăn trưa Cơm lam gà nướng trước khi khởi hành về.', afternoon: 'Uống cà phê ngắm phố lần cuối.', evening: 'Kết thúc chuyến Food Tour no nê.' }
             ]
         };
-
         function selectPlannerDay(day) {
             currentPlannerDay = day;
             document.querySelectorAll('.planner-day-btn').forEach(btn => {
@@ -1150,12 +1069,10 @@
             });
             generateItinerary();
         }
-
         function generateItinerary() {
             const style = document.getElementById('planner-style').value;
             const daysCount = currentPlannerDay === '2N1D' ? 2 : (currentPlannerDay === '3N2D' ? 3 : 4);
             const plan = ITINERARY_TEMPLATES[style].slice(0, daysCount);
-
             const container = document.getElementById('itinerary-result');
             container.innerHTML = plan.map((item, idx) => `
                 <div class="bg-slate-950/40 rounded-2xl p-5 border border-white/10">
@@ -1172,7 +1089,6 @@
                 </div>
             `).join('');
         }
-
         function copyItinerary() {
             const text = document.getElementById('itinerary-result').innerText;
             const textarea = document.createElement('textarea');
@@ -1183,7 +1099,6 @@
             document.body.removeChild(textarea);
             showToast('Đã sao chép lịch trình vào bộ nhớ tạm!', 'success');
         }
-
         // -------------------- 8. WISHLIST & BOOKING CART --------------------
         function toggleWishlist(destId) {
             const idx = wishlist.indexOf(destId);
@@ -1199,7 +1114,6 @@
             renderDestinations(DESTINATIONS);
             renderWishlistDrawer();
         }
-
         function addToCart(tourId) {
             const existing = cart.find(item => item.tourId === tourId);
             if (existing) {
@@ -1211,7 +1125,6 @@
             showToast('Đã thêm tour vào giỏ đặt chỗ!', 'success');
             openDrawer('cart');
         }
-
         function updateCartQty(tourId, type, delta) {
             const item = cart.find(i => i.tourId === tourId);
             if (!item) return;
@@ -1222,18 +1135,15 @@
             }
             saveCart();
         }
-
         function removeFromCart(tourId) {
             cart = cart.filter(i => i.tourId !== tourId);
             saveCart();
         }
-
         function saveCart() {
             localStorage.setItem('dalat_cart', JSON.stringify(cart));
             updateBadges();
             renderCartDrawer();
         }
-
         function updateBadges() {
             const wishBadge = document.getElementById('wishlist-badge');
             if (wishlist.length > 0) {
@@ -1244,24 +1154,20 @@
             }
             document.getElementById('cart-badge').textContent = cart.length;
         }
-
         function openDrawer(tab) {
             document.getElementById('side-drawer-overlay').classList.remove('hidden');
             document.getElementById('side-drawer').classList.remove('translate-x-full');
             switchDrawerTab(tab);
         }
-
         function closeDrawer() {
             document.getElementById('side-drawer-overlay').classList.add('hidden');
             document.getElementById('side-drawer').classList.add('translate-x-full');
         }
-
         function switchDrawerTab(tab) {
             const cartBtn = document.getElementById('tab-cart-btn');
             const wishBtn = document.getElementById('tab-wishlist-btn');
             const cartContent = document.getElementById('drawer-cart-content');
             const wishContent = document.getElementById('drawer-wishlist-content');
-
             if (tab === 'cart') {
                 cartBtn.className = 'px-3.5 py-1.5 rounded-xl text-sm font-bold bg-pine-800 text-white';
                 wishBtn.className = 'px-3.5 py-1.5 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800';
@@ -1276,11 +1182,9 @@
                 renderWishlistDrawer();
             }
         }
-
         function renderCartDrawer() {
             const container = document.getElementById('cart-items-container');
             const form = document.getElementById('checkout-form');
-
             if (cart.length === 0) {
                 container.innerHTML = `
                     <div class="text-center py-12 text-slate-400">
@@ -1291,16 +1195,13 @@
                 form.classList.add('hidden');
                 return;
             }
-
             form.classList.remove('hidden');
             let grandTotal = 0;
-
             container.innerHTML = cart.map(item => {
                 const tour = TOURS.find(t => t.id === item.tourId);
                 if (!tour) return '';
                 const subTotal = (item.adults * tour.priceAdult) + (item.children * tour.priceChild);
                 grandTotal += subTotal;
-
                 return `
                 <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700 space-y-3">
                     <div class="flex justify-between gap-2">
@@ -1330,10 +1231,8 @@
                     </div>
                 </div>`;
             }).join('');
-
             document.getElementById('cart-total-price').textContent = formatVND(grandTotal);
         }
-
         function renderWishlistDrawer() {
             const container = document.getElementById('wishlist-items-container');
             if (wishlist.length === 0) {
@@ -1355,7 +1254,6 @@
                 </div>`;
             }).join('');
         }
-
         // Checkout Submission
         document.getElementById('checkout-form').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1366,7 +1264,6 @@
             e.target.reset();
             showToast(`Cảm ơn ${name}! Yêu cầu đặt tour Đà Lạt của bạn đã được xác nhận. Nhân viên sẽ liên hệ trong 5 phút!`, 'success');
         });
-
         // -------------------- 9. REVIEWS & STAR RATING --------------------
         function initStarRating() {
             const stars = document.querySelectorAll('#star-rating-input i');
@@ -1380,7 +1277,6 @@
                 });
             });
         }
-
         function renderReviews() {
             const list = document.getElementById('reviews-list');
             list.innerHTML = reviews.map(rev => `
@@ -1403,7 +1299,6 @@
                 </div>
             `).join('');
         }
-
         document.getElementById('review-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const newRev = {
@@ -1419,18 +1314,15 @@
             e.target.reset();
             showToast('Cảm ơn bạn đã chia sẻ đánh giá tuyệt vời!', 'success');
         });
-
         // -------------------- 10. NEWSLETTER & UTILITIES --------------------
         document.getElementById('newsletter-form').addEventListener('submit', (e) => {
             e.preventDefault();
             e.target.reset();
             showToast('Đăng ký thành công! Mã ưu đãi DALAT15 đã được gửi tới email của bạn.', 'success');
         });
-
         function formatVND(amount) {
             return amount.toLocaleString('vi-VN') + 'đ';
         }
-
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
@@ -1438,11 +1330,9 @@
             toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-2xl border shadow-xl text-xs sm:text-sm font-medium max-w-sm transform transition-all duration-300 translate-y-4 opacity-0 ${bgClass}`;
             toast.innerHTML = `<i class="fa-solid ${type === 'success' ? 'fa-circle-check text-daquy-400' : 'fa-circle-info text-sky-400'} text-base"></i><span>${message}</span>`;
             container.appendChild(toast);
-
             requestAnimationFrame(() => {
                 toast.classList.remove('translate-y-4', 'opacity-0');
             });
-
             setTimeout(() => {
                 toast.classList.add('opacity-0', 'translate-y-2');
                 setTimeout(() => toast.remove(), 300);
@@ -1450,3 +1340,4 @@
         }
     </script>
 </body>
+</html>
