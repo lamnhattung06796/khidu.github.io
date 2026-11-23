@@ -1430,77 +1430,84 @@
             modal.classList.remove('flex');
         }
 
-        // Xử lý lưu dữ liệu khi bấm nút Submit trong Modal
-        document.getElementById('dynamic-add-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const type = document.getElementById('add-type').value;
-            const name = document.getElementById('inp-name').value.trim();
-            const price = document.getElementById('inp-price').value.trim();
-            const image = document.getElementById('inp-image').value.trim();
-            const desc = document.getElementById('inp-desc').value.trim();
+ // Lắng nghe sự kiện submit form an toàn (không bao giờ lỗi null)
+        document.addEventListener('submit', function(e) {
+            if (e.target && e.target.id === 'dynamic-add-form') {
+                e.preventDefault();
+                
+                const type = document.getElementById('add-type').value;
+                const name = document.getElementById('inp-name').value.trim();
+                const price = document.getElementById('inp-price').value.trim();
+                const image = document.getElementById('inp-image').value.trim();
+                const desc = document.getElementById('inp-desc').value.trim();
 
-            if (type === 'destination') {
-                const category = document.getElementById('inp-category').value;
-                const catLabelMap = {
-                    nature: 'Thiên nhiên & Săn mây',
-                    architecture: 'Check-in & Kiến trúc',
-                    farm: 'Vườn hoa & Nông trại',
-                    cafe: 'Cà phê chill'
-                };
-                const newDest = {
-                    id: 'dest-cloud-' + Date.now(),
-                    name: name,
-                    category: category,
-                    categoryLabel: catLabelMap[category],
-                    rating: 5.0,
-                    price: price,
-                    hours: '08:00 - 18:00',
-                    address: 'Đà Lạt, Lâm Đồng',
-                    coords: '11.9404° N, 108.4583° E',
-                    image: image,
-                    desc: desc
-                };
-                cloudDestinations.unshift(newDest);
-                localStorage.setItem('cloud_destinations', JSON.stringify(cloudDestinations));
-                renderDestinations(cloudDestinations);
-            } else {
-                const newCuisine = {
-                    name: name,
-                    tag: 'Đóng góp mới',
-                    price: price,
-                    desc: desc,
-                    spot: 'Gợi ý từ cộng đồng du lịch',
-                    image: image
-                };
-                cloudCuisines.unshift(newCuisine);
-                localStorage.setItem('cloud_cuisines', JSON.stringify(cloudCuisines));
-                // Cập nhật lại danh sách món ăn hiển thị
-                const grid = document.getElementById('cuisine-grid');
-                grid.innerHTML = cloudCuisines.map(item => `
-                    <div class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/70 dark:border-slate-800 flex flex-col transition-all">
-                        <div class="h-44 overflow-hidden relative">
-                            <img src="${item.image}" onerror="this.src='https://placehold.co/400x300/d97706/ffffff?text=Am+Thuc+Da+Lat'" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold">
-                                ${item.tag}
-                            </span>
-                        </div>
-                        <div class="p-5 flex-1 flex flex-col">
-                            <div class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-1.5">
-                                <i class="fa-solid fa-wallet mr-1.5"></i> ${item.price}
+                if (type === 'destination') {
+                    const category = document.getElementById('inp-category').value;
+                    const catLabelMap = {
+                        nature: 'Thiên nhiên & Săn mây',
+                        architecture: 'Check-in & Kiến trúc',
+                        farm: 'Vườn hoa & Nông trại',
+                        cafe: 'Cà phê chill'
+                    };
+                    const newDest = {
+                        id: 'dest-cloud-' + Date.now(),
+                        name: name,
+                        category: category,
+                        categoryLabel: catLabelMap[category],
+                        rating: 5.0,
+                        price: price,
+                        hours: '08:00 - 18:00',
+                        address: 'Đà Lạt, Lâm Đồng',
+                        coords: '11.9404° N, 108.4583° E',
+                        image: image,
+                        desc: desc
+                    };
+                    
+                    let currentList = JSON.parse(localStorage.getItem('cloud_destinations')) || DESTINATIONS;
+                    currentList.unshift(newDest);
+                    localStorage.setItem('cloud_destinations', JSON.stringify(currentList));
+                    renderDestinations(currentList);
+                } else {
+                    const newCuisine = {
+                        name: name,
+                        tag: 'Đóng góp mới',
+                        price: price,
+                        desc: desc,
+                        spot: 'Gợi ý từ cộng đồng du lịch',
+                        image: image
+                    };
+                    
+                    let currentCuisineList = JSON.parse(localStorage.getItem('cloud_cuisines')) || CUISINES;
+                    currentCuisineList.unshift(newCuisine);
+                    localStorage.setItem('cloud_cuisines', JSON.stringify(currentCuisineList));
+                    
+                    const grid = document.getElementById('cuisine-grid');
+                    grid.innerHTML = currentCuisineList.map(item => `
+                        <div class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/70 dark:border-slate-800 flex flex-col transition-all">
+                            <div class="h-44 overflow-hidden relative">
+                                <img src="${item.image}" onerror="this.src='https://placehold.co/400x300/d97706/ffffff?text=Am+Thuc+Da+Lat'" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold">
+                                    ${item.tag}
+                                </span>
                             </div>
-                            <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">${item.name}</h3>
-                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed flex-1">${item.desc}</p>
-                            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-pine-700 dark:text-pine-400">
-                                <i class="fa-solid fa-utensils mr-1"></i> ${item.spot}
+                            <div class="p-5 flex-1 flex flex-col">
+                                <div class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-1.5">
+                                    <i class="fa-solid fa-wallet mr-1.5"></i> ${item.price}
+                                </div>
+                                <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">${item.name}</h3>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed flex-1">${item.desc}</p>
+                                <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-pine-700 dark:text-pine-400">
+                                    <i class="fa-solid fa-utensils mr-1"></i> ${item.spot}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `).join('');
+                    `).join('');
+                }
+
+                showToast('Đã lưu thông tin mới thành công!', 'success');
+                closeAddModal();
+                e.target.reset();
             }
-
-            showToast('Đã lưu thông tin mới thành công!', 'success');
-            closeAddModal();
-            e.target.reset();
         });
     </script>
     <!-- ==================== MODAL: ADD CUSTOM DESTINATION OR CUISINE ==================== -->
