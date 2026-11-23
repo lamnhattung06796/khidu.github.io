@@ -541,6 +541,50 @@
     </aside>
     <!-- ==================== TOAST NOTIFICATION ==================== -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <!-- ==================== MODAL: ADD CUSTOM DESTINATION OR CUISINE ==================== -->
+<div id="add-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 relative">
+        <button type="button" onclick="closeAddModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h3 id="add-modal-title" class="font-serif text-2xl font-bold text-slate-900 dark:text-white mb-2">Thêm Địa Điểm Mới</h3>
+        <p class="text-xs text-slate-500 mb-6">Thông tin bạn đóng góp sẽ được lưu trữ lên hệ thống.</p>
+        
+        <form id="dynamic-add-form" class="space-y-4">
+            <input type="hidden" id="add-type" value="destination">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Tên địa điểm / món ăn *</label>
+                <input type="text" id="inp-name" required placeholder="VD: Đồi Mây Cầu Đất..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+            </div>
+            <div id="group-category">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Loại hình</label>
+                <select id="inp-category" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                    <option value="nature">Thiên nhiên & Săn mây</option>
+                    <option value="architecture">Check-in & Kiến trúc</option>
+                    <option value="farm">Vườn hoa & Nông trại</option>
+                    <option value="cafe">Cà phê chill</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" id="label-price">Giá vé / Chi phí *</label>
+                    <input type="text" id="inp-price" required placeholder="VD: 50.000đ" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Link Hình Ảnh (URL) *</label>
+                    <input type="url" id="inp-image" required placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Mô tả chi tiết *</label>
+                <textarea id="inp-desc" rows="3" required placeholder="Nhập mô tả hấp dẫn về địa điểm hoặc món ăn..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 rounded-xl bg-pine-800 hover:bg-pine-700 text-white font-semibold text-sm shadow-md transition-all">
+                Lưu Thông Tin Mới
+            </button>
+        </form>
+    </div>
+</div>
     <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
         // -------------------- DATA --------------------
@@ -815,9 +859,22 @@
         // -------------------- INITIALIZATION --------------------
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
-            renderDestinations(DESTINATIONS);
-            renderTours();
+            
+            // Nạp dữ liệu Địa điểm (nếu người dùng đã từng nhập trước đó)
+            const savedDest = JSON.parse(localStorage.getItem('cloud_destinations'));
+            const finalDestinations = savedDest ? savedDest : DESTINATIONS;
+            renderDestinations(finalDestinations);
+
+            // Nạp dữ liệu Ẩm thực (nếu đã từng nhập trước đó)
+            const savedCuisine = JSON.parse(localStorage.getItem('cloud_cuisines'));
+            if (savedCuisine) {
+                // Nếu có dữ liệu đã đóng góp, vẽ lại danh sách ẩm thực
+                CUISINES.length = 0;
+                Array.prototype.push.apply(CUISINES, savedCuisine);
+            }
             renderCuisines();
+
+            renderTours();
             renderReviews();
             generateItinerary();
             updateBadges();
@@ -1485,7 +1542,7 @@
                 <textarea id="inp-desc" rows="3" required placeholder="Nhập mô tả hấp dẫn về địa điểm hoặc món ăn..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm"></textarea>
             </div>
             <button type="submit" class="w-full py-3 rounded-xl bg-pine-800 hover:bg-pine-700 text-white font-semibold text-sm shadow-md transition-all">
-                Gửi
+                Lưu Thông Tin Mới
             </button>
         </form>
     </div>
