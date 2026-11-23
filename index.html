@@ -15,7 +15,6 @@
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
     <!-- Firebase App SDK (Core) -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <!-- Firebase Firestore Database -->
@@ -52,40 +51,33 @@
             }
         }
     </script>
-
     <script>
-    function openAddModal(type) {
-        document.getElementById('add-type').value = type;
-        const title = type === 'destination' ? 'Thêm Địa Điểm Mới' : 'Đóng Góp Món Ăn Mới';
-        document.getElementById('add-modal-title').textContent = title;
-
-        const groupCategory = document.getElementById('group-category');
-        if (groupCategory) {
-            groupCategory.style.display = type === 'destination' ? 'block' : 'none';
+        function openAddModal(type) {
+            document.getElementById('add-type').value = type;
+            const title = type === 'destination' ? 'Thêm Địa Điểm Mới' : 'Đóng Góp Món Ăn Mới';
+            document.getElementById('add-modal-title').textContent = title;
+            const groupCategory = document.getElementById('group-category');
+            if (groupCategory) {
+                groupCategory.style.display = type === 'destination' ? 'block' : 'none';
+            }
+            const labelPrice = document.getElementById('label-price');
+            if (labelPrice) {
+                labelPrice.textContent = type === 'destination' ? 'Giá vé tham quan *' : 'Mức giá trung bình *';
+            }
+            const modal = document.getElementById('add-modal');
+            if (modal) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
         }
-
-        const labelPrice = document.getElementById('label-price');
-        if (labelPrice) {
-            labelPrice.textContent = type === 'destination' ? 'Giá vé tham quan *' : 'Mức giá trung bình *';
+        function closeAddModal() {
+            const modal = document.getElementById('add-modal');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
         }
-
-        const modal = document.getElementById('add-modal');
-        if (modal) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-    }
-
-    function closeAddModal() {
-        const modal = document.getElementById('add-modal');
-        if (modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-    }
-</script>
-
-    <!-- Custom CSS File -->
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-cream text-slate-800 font-sans antialiased transition-colors duration-300 dark:bg-slate-950 dark:text-slate-100 selection:bg-pine-600 selection:text-white">
@@ -93,7 +85,6 @@
     <header id="navbar" class="fixed top-0 inset-x-0 z-40 transition-all duration-300 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200/60 dark:border-slate-800/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
                 <a href="#home" class="flex items-center gap-3 group">
                     <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-pine-700 to-pine-900 flex items-center justify-center text-white shadow-md group-hover:scale-105 transition-transform">
                         <i class="fa-solid fa-tree text-lg text-daquy-400"></i>
@@ -103,7 +94,6 @@
                         <span class="text-[11px] uppercase tracking-widest text-pine-600 dark:text-pine-400 font-semibold">Misty & Pine</span>
                     </div>
                 </a>
-                <!-- Desktop Navigation -->
                 <nav class="hidden lg:flex items-center gap-7 text-sm font-medium">
                     <a href="#home" class="text-slate-700 hover:text-pine-700 dark:text-slate-300 dark:hover:text-pine-400 transition-colors">Trang chủ</a>
                     <a href="#destinations" class="text-slate-700 hover:text-pine-700 dark:text-slate-300 dark:hover:text-pine-400 transition-colors">Điểm đến</a>
@@ -112,31 +102,25 @@
                     <a href="#planner" class="text-slate-700 hover:text-pine-700 dark:text-slate-300 dark:hover:text-pine-400 transition-colors">Lịch trình gợi ý</a>
                     <a href="#reviews" class="text-slate-700 hover:text-pine-700 dark:text-slate-300 dark:hover:text-pine-400 transition-colors">Đánh giá</a>
                 </nav>
-                <!-- Action Buttons -->
                 <div class="flex items-center gap-2 sm:gap-3">
-                    <!-- Dark/Light Mode Toggle -->
                     <button id="theme-toggle" aria-label="Chuyển đổi giao diện Sáng/Tối" class="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-amber-300 transition-colors">
                         <i id="theme-icon" class="fa-solid fa-moon text-base"></i>
                     </button>
-                    <!-- Wishlist Button -->
                     <button onclick="openDrawer('wishlist')" aria-label="Danh sách yêu thích" class="relative p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition-colors">
                         <i class="fa-regular fa-heart text-base text-rose-500"></i>
                         <span id="wishlist-badge" class="hidden absolute -top-1 -right-1 w-5 h-5 rounded-full bg-rose-500 text-white text-[11px] font-bold flex items-center justify-center shadow">0</span>
                     </button>
-                    <!-- Booking Cart Button -->
                     <button onclick="openDrawer('cart')" class="relative flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-pine-800 hover:bg-pine-700 text-white text-sm font-semibold shadow-sm transition-all">
                         <i class="fa-solid fa-suitcase-rolling"></i>
                         <span class="hidden sm:inline">Đặt Tour</span>
                         <span id="cart-badge" class="w-5 h-5 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold flex items-center justify-center">0</span>
                     </button>
-                    <!-- Mobile Menu Toggle -->
                     <button id="mobile-menu-btn" aria-label="Mở menu" class="lg:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200">
                         <i class="fa-solid fa-bars text-lg"></i>
                     </button>
                 </div>
             </div>
         </div>
-        <!-- Mobile Navigation Drawer -->
         <div id="mobile-menu" class="hidden lg:hidden bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 pt-2 pb-6 space-y-2 shadow-xl">
             <a href="#home" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-pine-50 dark:hover:bg-slate-800 font-medium">Trang chủ</a>
             <a href="#destinations" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-pine-50 dark:hover:bg-slate-800 font-medium">Điểm đến nổi bật</a>
@@ -146,9 +130,9 @@
             <a href="#reviews" onclick="closeMobileMenu()" class="block px-4 py-2.5 rounded-xl hover:bg-pine-50 dark:hover:bg-slate-800 font-medium">Đánh giá & Liên hệ</a>
         </div>
     </header>
+
     <!-- ==================== 2. HERO SECTION ==================== -->
     <section id="home" class="relative pt-20 min-h-[92vh] flex items-center justify-center overflow-hidden">
-        <!-- Background Image with Overlay -->
         <div class="absolute inset-0 z-0">
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTURY3LdK_lVUojEO418Ag0PwGoO_WcUgdm4s0PpPXgsg&s=10" 
                  onerror="this.src='https://placehold.co/1920x1080/064e3b/ffffff?text=Da+Lat+Rung+Thong+Suong+Mu'"
@@ -168,17 +152,14 @@
             <p class="mt-6 text-base sm:text-lg md:text-xl text-slate-100/90 max-w-2xl mx-auto font-normal leading-relaxed">
                 Khám phá vẻ đẹp bình yên của thành phố ngàn hoa qua những cung đường săn mây, đồi thông vi vu, kiến trúc Pháp cổ kính và hương vị ẩm thực ấm nồng.
             </p>
-            <!-- Quick Search Bar -->
             <div class="mt-10 max-w-4xl mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg p-3 sm:p-4 rounded-2xl shadow-2xl border border-white/20 text-left">
                 <form id="hero-search-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                    <!-- Keyword -->
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-pine-700 dark:text-pine-400 mb-1">
                             <i class="fa-solid fa-location-dot mr-1"></i> Điểm đến / Từ khóa
                         </label>
                         <input type="text" id="search-keyword" placeholder="VD: Đồi Đa Phú, Thác Datanla..." class="w-full bg-transparent text-sm text-slate-800 dark:text-white placeholder-slate-400 focus:outline-none">
                     </div>
-                    <!-- Category -->
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-pine-700 dark:text-pine-400 mb-1">
                             <i class="fa-solid fa-compass mr-1"></i> Loại hình
@@ -191,7 +172,6 @@
                             <option value="cafe" class="dark:bg-slate-800">Cà phê chill</option>
                         </select>
                     </div>
-                    <!-- Duration -->
                     <div class="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200/70 dark:border-slate-700">
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-pine-700 dark:text-pine-400 mb-1">
                             <i class="fa-regular fa-clock mr-1"></i> Thời gian dự kiến
@@ -202,7 +182,6 @@
                             <option value="4N3D" class="dark:bg-slate-800">4 Ngày 3 Đêm</option>
                         </select>
                     </div>
-                    <!-- CTA Button -->
                     <button type="submit" class="w-full h-full min-h-[54px] rounded-xl bg-gradient-to-r from-pine-700 to-pine-800 hover:from-pine-600 hover:to-pine-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-lg hover:shadow-pine-700/30 transition-all">
                         <i class="fa-solid fa-magnifying-glass"></i>
                         <span>Khám Phá Ngay</span>
@@ -211,11 +190,11 @@
             </div>
         </div>
     </section>
-    <!-- ==================== 3. WEATHER WIDGET (THỜI TIẾT ĐÀ LẠT) ==================== -->
+
+    <!-- ==================== 3. WEATHER WIDGET ==================== -->
     <section class="relative z-20 -mt-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-xl border border-slate-200/80 dark:border-slate-800 p-5 sm:p-6">
             <div class="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
-                <!-- Current Weather Info -->
                 <div class="flex items-center gap-4 sm:gap-5">
                     <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-sky-100 to-pine-100 dark:from-slate-800 dark:to-pine-900/50 flex items-center justify-center text-3xl text-pine-700 dark:text-daquy-400 shrink-0 shadow-inner">
                         <i id="weather-icon" class="fa-solid fa-cloud-sun"></i>
@@ -225,7 +204,6 @@
                             <span class="text-xs font-bold uppercase tracking-wider text-pine-700 dark:text-pine-400 bg-pine-50 dark:bg-pine-900/40 px-2.5 py-0.5 rounded-full">
                                 <i class="fa-solid fa-circle text-[8px] text-emerald-500 mr-1 animate-pulse"></i> Thời tiết Đà Lạt hôm nay
                             </span>
-                            <!-- Time of day switcher for interactive simulation -->
                             <div class="hidden sm:flex items-center gap-1 ml-2 text-xs">
                                 <button onclick="setWeatherTime('morning')" class="weather-btn px-2 py-0.5 rounded bg-pine-700 text-white font-medium" data-time="morning">Sáng sớm</button>
                                 <button onclick="setWeatherTime('noon')" class="weather-btn px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300" data-time="noon">Trưa</button>
@@ -238,7 +216,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Metrics & Outfit Recommendation -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full lg:w-auto border-t lg:border-t-0 pt-4 lg:pt-0 border-slate-100 dark:border-slate-800">
                     <div class="flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60">
                         <i class="fa-solid fa-droplet text-sky-500 text-lg"></i>
@@ -258,14 +235,14 @@
             </div>
         </div>
     </section>
-    <!-- ==================== 4. DESTINATIONS (ĐIỂM ĐẾN NỔI BẬT) ==================== -->
+
+    <!-- ==================== 4. DESTINATIONS ==================== -->
     <section id="destinations" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
             <div>
                 <span class="text-xs font-bold uppercase tracking-widest text-pine-700 dark:text-pine-400">Khám Phá Vùng Đất Lạnh</span>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">Điểm Đến Nổi Bật Tại Đà Lạt</h2>
             </div>
-            <!-- Category Filter Pills -->
             <div id="destination-filters" class="flex flex-wrap gap-2">
                 <button onclick="filterDestinations('all')" class="filter-pill active px-4 py-2 rounded-full text-sm font-semibold bg-pine-800 text-white shadow-sm transition-all" data-cat="all">Tất cả</button>
                 <button onclick="filterDestinations('nature')" class="filter-pill px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-pine-600 transition-all" data-cat="nature">Thiên nhiên & Săn mây</button>
@@ -274,18 +251,15 @@
                 <button onclick="filterDestinations('cafe')" class="filter-pill px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-pine-600 transition-all" data-cat="cafe">Cà phê chill</button>
             </div>
         </div>
-        <!-- Destinations Grid -->
-        <div id="destinations-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-            <!-- Rendered dynamically via JS -->
-        </div>
-        <div class="flex items-center gap-3">
-        <!-- Các nút filter hiện tại -->
-            <button onclick="openAddModal('destination')" class="px-4 py-2 rounded-full text-sm font-bold bg-daquy-500 text-slate-950 shadow-sm hover:bg-daquy-400 transition-all flex items-center gap-1.5">
+        <div id="destinations-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+        <div class="mt-8 flex items-center gap-3">
+            <button onclick="openAddModal('destination')" class="px-5 py-2.5 rounded-full text-sm font-bold bg-daquy-500 text-slate-950 shadow-sm hover:bg-daquy-400 transition-all flex items-center gap-1.5">
                 <i class="fa-solid fa-plus"></i> Thêm Địa Điểm Mới
             </button>
         </div>
     </section>
-    <!-- ==================== 5. TOURS & PACKAGES (TOUR & TRẢI NGHIỆM) ==================== -->
+
+    <!-- ==================== 5. TOURS & PACKAGES ==================== -->
     <section id="tours" class="py-20 bg-pine-50/70 dark:bg-slate-900/50 border-y border-slate-200/60 dark:border-slate-800/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-14">
@@ -293,12 +267,11 @@
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2">Tour & Trải Nghiệm Bản Địa</h2>
                 <p class="text-slate-600 dark:text-slate-400 mt-3 text-sm sm:text-base">Lịch trình được thiết kế tinh tế bởi thổ địa Đà Lạt, bao gồm xe đưa đón tận nơi, hướng dẫn viên nhiệt tình và vé tham quan.</p>
             </div>
-            <div id="tours-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- Rendered dynamically via JS -->
-            </div>
+            <div id="tours-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
         </div>
     </section>
-    <!-- ==================== 6. LOCAL CUISINE (ẨM THỰC ĐÀ LẠT) ==================== -->
+
+    <!-- ==================== 6. LOCAL CUISINE ==================== -->
     <section id="cuisine" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
             <div>
@@ -307,15 +280,14 @@
             </div>
             <p class="text-sm text-slate-600 dark:text-slate-400 max-w-md">Giữa tiết trời se lạnh 15°C, không gì tuyệt vời hơn việc thưởng thức những món ăn nóng hổi đặc trưng của phố núi.</p>
         </div>
-        <div id="cuisine-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            <!-- Rendered dynamically via JS -->
-        </div>
-        <div class="flex items-center gap-3">
-            <button onclick="openAddModal('cuisine')" class="px-4 py-2 rounded-full text-sm font-bold bg-daquy-500 text-slate-950 shadow-sm hover:bg-daquy-400 transition-all flex items-center gap-1.5">
+        <div id="cuisine-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6"></div>
+        <div class="mt-8 flex items-center gap-3">
+            <button onclick="openAddModal('cuisine')" class="px-5 py-2.5 rounded-full text-sm font-bold bg-daquy-500 text-slate-950 shadow-sm hover:bg-daquy-400 transition-all flex items-center gap-1.5">
                 <i class="fa-solid fa-plus"></i> Thêm Món Ăn
             </button>
         </div>
     </section>
+
     <!-- ==================== 7. INTERACTIVE ITINERARY PLANNER ==================== -->
     <section id="planner" class="py-20 bg-gradient-to-br from-pine-900 via-pine-800 to-slate-900 text-white">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -324,10 +296,8 @@
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold">Tự Thiết Kế Lịch Trình Đà Lạt</h2>
                 <p class="text-pine-100/80 mt-3 text-sm sm:text-base">Chọn quỹ thời gian và phong cách du lịch yêu thích, hệ thống sẽ gợi ý lịch trình chi tiết từng buổi dành riêng cho bạn.</p>
             </div>
-            <!-- Controls -->
             <div class="bg-white/10 backdrop-blur-md border border-white/15 rounded-3xl p-6 sm:p-8 shadow-2xl">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
-                    <!-- Select Days -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-daquy-400 mb-2">1. Thời gian chuyến đi</label>
                         <div class="grid grid-cols-3 gap-2">
@@ -336,7 +306,6 @@
                             <button type="button" onclick="selectPlannerDay('4N3D')" class="planner-day-btn py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/20 transition-all" data-day="4N3D">4N3Đ</button>
                         </div>
                     </div>
-                    <!-- Select Style -->
                     <div>
                         <label class="block text-xs font-bold uppercase tracking-wider text-daquy-400 mb-2">2. Phong cách trải nghiệm</label>
                         <select id="planner-style" onchange="generateItinerary()" class="w-full py-2.5 px-4 rounded-xl bg-slate-900/80 border border-white/20 text-white text-sm font-medium focus:outline-none focus:border-daquy-400">
@@ -346,7 +315,6 @@
                             <option value="food">Food Tour & Ẩm thực địa phương</option>
                         </select>
                     </div>
-                    <!-- Generate & Action Buttons -->
                     <div class="flex gap-2">
                         <button type="button" onclick="generateItinerary()" class="flex-1 py-2.5 px-4 rounded-xl bg-pine-500 hover:bg-pine-400 text-slate-950 font-bold text-sm transition-all flex items-center justify-center gap-2">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> Tạo Lịch Trình
@@ -359,26 +327,19 @@
                         </button>
                     </div>
                 </div>
-                <!-- Generated Itinerary Output -->
-                <div id="itinerary-result" class="mt-8 pt-8 border-t border-white/15 space-y-6">
-                    <!-- Rendered dynamically via JS -->
-                </div>
+                <div id="itinerary-result" class="mt-8 pt-8 border-t border-white/15 space-y-6"></div>
             </div>
         </div>
     </section>
+
     <!-- ==================== 9. TESTIMONIALS & REVIEW FORM ==================== -->
     <section id="reviews" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-            <!-- Left: Reviews List (7 cols) -->
             <div class="lg:col-span-7">
                 <span class="text-xs font-bold uppercase tracking-widest text-pine-700 dark:text-pine-400">Nhật Ký Hành Trình</span>
                 <h2 class="font-serif text-3xl sm:text-4xl font-bold text-slate-900 dark:text-white mt-2 mb-8">Cảm Nhận Từ Du Khách</h2>
-                
-                <div id="reviews-list" class="space-y-5">
-                    <!-- Rendered dynamically via JS -->
-                </div>
+                <div id="reviews-list" class="space-y-5"></div>
             </div>
-            <!-- Right: Submit New Review Form (5 cols) -->
             <div class="lg:col-span-5 bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 dark:border-slate-800 sticky top-28">
                 <h3 class="font-serif text-2xl font-bold text-slate-900 dark:text-white">Chia Sẻ Kỷ Niệm Của Bạn</h3>
                 <p class="text-sm text-slate-600 dark:text-slate-400 mt-1 mb-6">Bạn vừa có chuyến đi đáng nhớ tại Đà Lạt? Hãy để lại đánh giá để truyền cảm hứng cho mọi người nhé!</p>
@@ -413,11 +374,11 @@
             </div>
         </div>
     </section>
+
     <!-- ==================== 10. FOOTER ==================== -->
     <footer class="bg-slate-950 text-slate-300 pt-16 pb-10 border-t border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
-                <!-- Col 1: Brand -->
                 <div>
                     <div class="flex items-center gap-3 mb-4">
                         <div class="w-10 h-10 rounded-xl bg-pine-800 flex items-center justify-center text-daquy-400">
@@ -435,7 +396,6 @@
                         <a href="#" aria-label="YouTube" class="w-9 h-9 rounded-full bg-slate-900 hover:bg-pine-700 flex items-center justify-center text-white transition-colors"><i class="fa-brands fa-youtube"></i></a>
                     </div>
                 </div>
-                <!-- Col 2: Quick Links -->
                 <div>
                     <h4 class="text-white font-bold uppercase tracking-wider text-xs mb-4">Khám Phá Nhanh</h4>
                     <ul class="space-y-2.5 text-sm">
@@ -446,7 +406,6 @@
                         <li><a href="#reviews" class="hover:text-daquy-400 transition-colors">Đánh giá từ du khách</a></li>
                     </ul>
                 </div>
-                <!-- Col 3: Contact -->
                 <div>
                     <h4 class="text-white font-bold uppercase tracking-wider text-xs mb-4">Liên Hệ Hỗ Trợ</h4>
                     <ul class="space-y-3 text-sm text-slate-400">
@@ -464,7 +423,6 @@
                         </li>
                     </ul>
                 </div>
-                <!-- Col 4: Newsletter -->
                 <div>
                     <h4 class="text-white font-bold uppercase tracking-wider text-xs mb-4">Nhận Bản Tin Ưu Đãi</h4>
                     <p class="text-sm text-slate-400 mb-4">Nhận ngay mã giảm giá 15% cho tour săn mây và cẩm nang du lịch Đà Lạt theo mùa.</p>
@@ -485,6 +443,7 @@
             </div>
         </div>
     </footer>
+
     <!-- ==================== MODAL: DESTINATION DETAIL ==================== -->
     <div id="detail-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
         <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 dark:border-slate-800">
@@ -514,7 +473,6 @@
                         <span id="modal-hours-price" class="font-semibold text-pine-700 dark:text-pine-400"></span>
                     </div>
                 </div>
-                <!-- Simulated Interactive Map Preview -->
                 <div class="mt-6 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-pine-50 dark:bg-slate-800 p-4 flex items-center justify-between">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-xl bg-pine-700 text-white flex items-center justify-center">
@@ -532,10 +490,10 @@
             </div>
         </div>
     </div>
+
     <!-- ==================== DRAWER: BOOKING CART & WISHLIST ==================== -->
     <div id="side-drawer-overlay" onclick="closeDrawer()" class="fixed inset-0 z-50 hidden bg-slate-950/60 backdrop-blur-xs transition-opacity"></div>
     <aside id="side-drawer" class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white dark:bg-slate-900 shadow-2xl border-l border-slate-200 dark:border-slate-800 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <!-- Drawer Header -->
         <div class="p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
             <div class="flex gap-2">
                 <button onclick="switchDrawerTab('cart')" id="tab-cart-btn" class="px-3.5 py-1.5 rounded-xl text-sm font-bold bg-pine-800 text-white">Giỏ Đặt Tour</button>
@@ -545,12 +503,8 @@
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-        <!-- Drawer Body: Cart Tab -->
         <div id="drawer-cart-content" class="flex-1 overflow-y-auto p-5 space-y-5">
-            <div id="cart-items-container" class="space-y-4">
-                <!-- Rendered via JS -->
-            </div>
-            <!-- Booking Customer Form -->
+            <div id="cart-items-container" class="space-y-4"></div>
             <form id="checkout-form" class="hidden pt-5 border-t border-slate-200 dark:border-slate-800 space-y-3.5">
                 <h4 class="font-bold text-sm uppercase tracking-wider text-pine-700 dark:text-pine-400">Thông Tin Đặt Tour</h4>
                 <input type="text" id="cust-name" required placeholder="Họ và tên người đặt *" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
@@ -569,62 +523,75 @@
                 </button>
             </form>
         </div>
-        <!-- Drawer Body: Wishlist Tab -->
         <div id="drawer-wishlist-content" class="hidden flex-1 overflow-y-auto p-5 space-y-4">
-            <div id="wishlist-items-container" class="space-y-3">
-                <!-- Rendered via JS -->
-            </div>
+            <div id="wishlist-items-container" class="space-y-3"></div>
         </div>
     </aside>
+
     <!-- ==================== TOAST NOTIFICATION ==================== -->
     <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
     <!-- ==================== MODAL: ADD CUSTOM DESTINATION OR CUISINE ==================== -->
-<div id="add-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
-    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 relative">
-        <button type="button" onclick="closeAddModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-        <h3 id="add-modal-title" class="font-serif text-2xl font-bold text-slate-900 dark:text-white mb-2">Thêm Địa Điểm Mới</h3>
-        <p class="text-xs text-slate-500 mb-6">Thông tin bạn đóng góp sẽ được lưu trữ lên hệ thống.</p>
-        
-        <form id="dynamic-add-form" class="space-y-4">
-            <input type="hidden" id="add-type" value="destination">
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Tên địa điểm / món ăn *</label>
-                <input type="text" id="inp-name" required placeholder="VD: Đồi Mây Cầu Đất..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
-            </div>
-            <div id="group-category">
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Loại hình</label>
-                <select id="inp-category" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
-                    <option value="nature">Thiên nhiên & Săn mây</option>
-                    <option value="architecture">Check-in & Kiến trúc</option>
-                    <option value="farm">Vườn hoa & Nông trại</option>
-                    <option value="cafe">Cà phê chill</option>
-                </select>
-            </div>
-            <div class="grid grid-cols-2 gap-3">
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" id="label-price">Giá vé / Chi phí *</label>
-                    <input type="text" id="inp-price" required placeholder="VD: 50.000đ" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Link Hình Ảnh (URL) *</label>
-                    <input type="url" id="inp-image" required placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
-                </div>
-            </div>
-            <div>
-                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Mô tả chi tiết *</label>
-                <textarea id="inp-desc" rows="3" required placeholder="Nhập mô tả hấp dẫn về địa điểm hoặc món ăn..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm"></textarea>
-            </div>
-            <button type="submit" class="w-full py-3 rounded-xl bg-pine-800 hover:bg-pine-700 text-white font-semibold text-sm shadow-md transition-all">
-                Lưu Thông Tin Mới
+    <div id="add-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 relative">
+            <button type="button" onclick="closeAddModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+                <i class="fa-solid fa-xmark"></i>
             </button>
-        </form>
+            <h3 id="add-modal-title" class="font-serif text-2xl font-bold text-slate-900 dark:text-white mb-2">Thêm Địa Điểm Mới</h3>
+            <p class="text-xs text-slate-500 mb-6">Thông tin bạn đóng góp sẽ được lưu trữ lên hệ thống.</p>
+            
+            <form id="dynamic-add-form" class="space-y-4">
+                <input type="hidden" id="add-type" value="destination">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Tên địa điểm / món ăn *</label>
+                    <input type="text" id="inp-name" required placeholder="VD: Đồi Mây Cầu Đất..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                </div>
+                <div id="group-category">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Loại hình</label>
+                    <select id="inp-category" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                        <option value="nature">Thiên nhiên & Săn mây</option>
+                        <option value="architecture">Check-in & Kiến trúc</option>
+                        <option value="farm">Vườn hoa & Nông trại</option>
+                        <option value="cafe">Cà phê chill</option>
+                    </select>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" id="label-price">Giá vé / Chi phí *</label>
+                        <input type="text" id="inp-price" required placeholder="VD: 50.000đ" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Link Hình Ảnh (URL) *</label>
+                        <input type="url" id="inp-image" required placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Mô tả chi tiết *</label>
+                    <textarea id="inp-desc" rows="3" required placeholder="Nhập mô tả hấp dẫn về địa điểm hoặc món ăn..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm"></textarea>
+                </div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-pine-800 hover:bg-pine-700 text-white font-semibold text-sm shadow-md transition-all">
+                    Lưu Thông Tin Mới
+                </button>
+            </form>
+        </div>
     </div>
-</div>
+
     <!-- ==================== JAVASCRIPT LOGIC ==================== -->
     <script>
-        // -------------------- DATA --------------------
+        // -------------------- FIREBASE CONFIG --------------------
+        const firebaseConfig = {
+            apiKey: "AIzaSyAhBvDxqt2S6a4vHX93WIWkddvq2lml434",
+            authDomain: "cloud-b9c57.firebaseapp.com",
+            projectId: "cloud-b9c57",
+            storageBucket: "cloud-b9c57.firebasestorage.app",
+            messagingSenderId: "698253432014",
+            appId: "1:698253432014:web:0075eadf70a919277b2c9f",
+            measurementId: "G-DNXCV51T21"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // -------------------- DEFAULT DATA --------------------
         const DESTINATIONS = [
             {
                 id: 'dest-1',
@@ -715,7 +682,7 @@
                 address: 'Tổ 20, thôn 4, xã Tà Nung (Cam Ly), TP. Đà Lạt',
                 coords: '11.9016° N, 108.3475° E',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRo2GczI3MSVSokM_XmX_Z4cdR9xpkXtEyIU_a8CNs0KYxz7FYhVY9iMllz&s=10',
-                desc: 'Tọa lạc tại vùng ngoại ô Tà Nung yên bình, Mê Linh Coffee Garden nổi tiếng với không gian mở 360 độ hướng thẳng ra những đồi cà phê xanh mướt và hồ Đập Cam Ly thơ mộng. Đến đây, du khách không chỉ được thưởng thức hương vị cà phê chồn nguyên chất đậm đà mà còn có cơ hội tìm hiểu quy trình sản xuất cà phê tại chỗ và check-in tại nhiều tiểu cảnh độc đáo giữa núi rừng cao nguyên.'
+                desc: 'Tọa lạc tại vùng ngoại ô Tà Nung yên bình, Mê Linh Coffee Garden nổi tiếng với không gian mở 360 độ hướng thẳng ra những đồi cà phê xanh mướt và hồ Đập Cam Ly thơ mộng.'
             },
             {
                 id: 'dest-8',
@@ -723,12 +690,12 @@
                 category: 'farm',
                 categoryLabel: 'Vườn hoa & Nông trại',
                 rating: 4.9,
-                price: 'Người lớn: 40.000 VNĐ / vé / lượt \n Trẻ em (chiều cao dưới 1,2m): 20.000 VNĐ / vé / lượt \n Trẻ em dưới 5 tuổi (hoặc dưới chiều cao quy định): Miễn phí',
+                price: 'Người lớn: 40.000đ • Trẻ em: 20.000đ',
                 hours: '07:00 - 18:00',
-                address: 'Số 02 đường Trần Nhân Tông, Phường 8 (khu vực Lâm Viên), Thành phố Đà Lạt',
+                address: 'Số 02 đường Trần Nhân Tông, Phường 8, TP. Đà Lạt',
                 coords: '11.9542° N, 108.4445° E',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQD24eZDbEFp-crgMCbGsD-248MT_nVNU8CUXXCRjlh8K0jH5ybGT4aE3o&s=10',
-                desc: 'Nằm ngay khu vực trung tâm bên bờ Hồ Xuân Hương, Vườn hoa thành phố được ví như một bảo tàng thực vật khổng lồ với hàng trăm loài hoa đặc trưng của xứ lạnh như cẩm tú cầu, mimosa, hoa hồng, lan và đỗ quyên khoe sắc quanh năm. Đây là điểm dừng chân lý tưởng để dạo bộ thư giãn, chiêm ngưỡng nghệ thuật sắp đặt tiểu cảnh rực rỡ và lưu giữ những bức ảnh đậm chất "thành phố ngàn hoa".'
+                desc: 'Nằm ngay khu vực trung tâm bên bờ Hồ Xuân Hương, Vườn hoa thành phố được ví như một bảo tàng thực vật khổng lồ với hàng trăm loài hoa đặc trưng của xứ lạnh.'
             },
             {
                 id: 'dest-9',
@@ -738,12 +705,13 @@
                 rating: 4.7,
                 price: 'Miễn phí',
                 hours: 'Tự do tham quan',
-                address: 'Nằm ngay trung tâm Thành phố Đà Lạt (vây quanh các tuyến đường chính như Trần Quốc Toản, Bà Huyện Thanh Quan, Đinh Tiên Hoàng)',
+                address: 'Trung tâm Thành phố Đà Lạt',
                 coords: '11.9404° N, 108.4385° E',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOFkvxFj1ys_nxY4IBffa6y-jSuMDOMcP9a3Ntl8_XdF5c0htvWQx3dfA&s=10',
-                desc: 'Được mệnh danh là "trái tim của Đà Lạt", Hồ Xuân Hương sở hữu vẻ đẹp dịu dàng với mặt nước phẳng lặng hình trăng lưỡi liềm, bao quanh bởi những hàng thông xanh rì và thảm cỏ êm ái. Dù là tản bộ ngắm sương sớm, đạp vịt lúc chiều tà hay thưởng thức sữa đậu nành nóng bên bờ hồ về đêm, nơi đây luôn mang lại cảm giác bình yên và lãng mạn đặc trưng nhất của phố núi.'
+                desc: 'Được mệnh danh là "trái tim của Đà Lạt", Hồ Xuân Hương sở hữu vẻ đẹp dịu dàng với mặt nước phẳng lặng hình trăng lưỡi liềm, bao quanh bởi những hàng thông xanh rì.'
             }
         ];
+
         const TOURS = [
             {
                 id: 'tour-1',
@@ -790,8 +758,10 @@
                 highlights: ['Tìm hiểu quy trình hái & rang xay cà phê Cầu Đất', 'Hái dâu tây công nghệ cao tại vườn', 'Check-in Cổng Trời Bali & Hồ Vô Cực']
             }
         ];
+
         const CUISINES = [
             {
+                id: 'cui-1',
                 name: 'Bánh Tráng Nướng',
                 tag: 'Ăn vặt tối',
                 price: '15.000đ - 30.000đ/bánh',
@@ -800,14 +770,16 @@
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG6HoQcfGFYqjxCu68GyuQnmd8RO7o-ADhTVwFGWZF9hPVSHFE95WOBGM&s=10'
             },
             {
+                id: 'cui-2',
                 name: 'Lẩu Gà Lá É',
                 tag: 'Món chính ấm bụng',
-                price: '200.000đ - 400.000đ/nồi.',
+                price: '200.000đ - 400.000đ/nồi',
                 desc: 'Nước dùng thanh ngọt từ thịt gà ta thả vườn, măng tươi giòn sần sật hòa quyện hương thơm cay nhẹ của lá é.',
                 spot: 'Gợi ý: Lẩu gà lá é Tao Ngộ (Đường 3/4)',
                 image: 'https://statics.vinpearl.com/lau-ga-la-e-da-lat-1_1691339792.jpeg'
             },
             {
+                id: 'cui-3',
                 name: 'Bánh Căn Nóng Hổi',
                 tag: 'Bữa sáng đặc trưng',
                 price: '30.000đ - 60.000đ/đĩa',
@@ -816,64 +788,73 @@
                 image: 'https://cdn2.tuoitre.vn/tto/i/s626/2015/12/23/banh-can-da-lat-1450864147.jpg'
             },
             {
+                id: 'cui-4',
                 name: 'Kem Bơ Đà Lạt',
                 tag: 'Tráng miệng trứ danh',
-                price: '30.000đ - 40.000đ/ly.',
+                price: '30.000đ - 40.000đ/ly',
                 desc: 'Bơ sáp Đà Lạt xay mịn dẻo quánh kết hợp cùng viên kem dừa mát lạnh và dừa khô giòn tan tạo nên món tráng miệng béo ngậy khó quên.',
                 spot: 'Gợi ý: Kem bơ Thanh Thảo (76 Nguyễn Văn Trỗi)',
                 image: 'https://static.vinwonders.com/production/kem-bo-da-lat-so-1.jpg'
             },
             {
+                id: 'cui-5',
                 name: 'Sữa Đậu Nành Nóng',
                 tag: 'Đặc sản đêm khuya',
-                price: '10.000đ - 15.000đ/ly sữa',
+                price: '10.000đ - 15.000đ/ly',
                 desc: 'Ly sữa đậu nành thơm lừng bốc khói giữa chợ đêm Đà Lạt, ăn kèm bánh su kem hoặc bánh tiêu nóng.',
                 spot: 'Gợi ý: Sữa đậu nành Tăng Bạt Hổ',
                 image: 'https://statics.vinpearl.com/sua-dau-nanh-da-lat-10_1700809547.jpg'
             },
             {
+                id: 'cui-6',
                 name: 'Bánh mì xíu mại',
                 tag: 'Bữa sáng nhanh gọn',
                 price: '15.000đ - 30.000đ/chén',
                 desc: 'Chén xíu mại nóng hổi, nước dùng ngọt thanh từ xương, ăn kèm bánh mì giòn rụm và rau thơm tươi ngon.',
-                spot: 'Gợi ý: Bánh mì xíu mại Hồng Phát (Đường 3/2), Bánh mì xíu mại Bà Hường (Đường 3/4)',
+                spot: 'Gợi ý: Bánh mì xíu mại Hồng Phát (Đường 3/2)',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCkmKJT0fOsEI0-yNPWPKsjmFAgqI75mERgM1lC-O2YA&s=10'
             },
             {
+                id: 'cui-7',
                 name: 'Bánh ướt lòng gà',
                 tag: 'Ăn xế chiều nhẹ',
                 price: '35.000đ - 60.000đ/tô',
                 desc: 'Bánh ướt mềm dẻo kết hợp thịt gà xé, lòng gà và nước mắm chua ngọt đậm đà, ăn kèm rau sống tươi ngon.',
-                spot: 'Gợi ý: Bánh ướt lòng gà Long Chuyên (Đường 3/4), Bánh ướt lòng gà Đà Lạt (Đường 3/2)',
+                spot: 'Gợi ý: Bánh ướt lòng gà Long Chuyên (Đường 3/4)',
                 image: 'https://static.vinwonders.com/production/banh-uot-long-ga-da-lat-1.jpg'
             },
             {
+                id: 'cui-8',
                 name: 'Nem nướng Đà Lạt',
                 tag: 'Ăn vặt xế chiều',
                 price: '45.000đ - 60.000đ/suất',
                 desc: 'Nem cuốn cùng bánh tráng chiên giòn, rau sống tươi ngon và chén nước chấm sệt đặc trưng của phố núi.',
-                spot: 'Gợi ý:  Nem nướng Bà Hùng, Bà Nghĩa, Út Huệ (Chợ Đà Lạt)',
+                spot: 'Gợi ý: Nem nướng Bà Hùng, Bà Nghĩa',
                 image: 'https://lamdongtours.com/wp-content/uploads/2021/04/Nem-nuong-Ba-Nghia.jpg'
             },
             {
+                id: 'cui-9',
                 name: 'Cơm niêu & Gà nướng cơm lam',
                 tag: 'Bữa chính ấm cúng',
-                price: '300.000đ - 450.000đ/con gà',
-                desc: 'Thích hợp cho gia đình hoặc nhóm đông người với cơm niêu dẻo thơm, gà nướng mật ong và cơm lam nướng than hồng thơm lừng.',
-                spot: 'Gợi ý:  Cơm niêu Như Ngọc, Hương Trà Quán, Gà nướng cơm lam Tâm Châu.',
+                price: '300.000đ - 450.000đ/con',
+                desc: 'Cơm niêu dẻo thơm, gà nướng mật ong và cơm lam nướng than hồng thơm lừng.',
+                spot: 'Gợi ý: Cơm niêu Như Ngọc, Hương Trà Quán',
                 image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSS6DFKk26c3vjhnEQFPWVz9h4WaKXhNMLwZhh1SJ4URDWPAf0svv35H5c&s=10'
             },
             {
+                id: 'cui-10',
                 name: 'Lẩu bò Ba Toa',
                 tag: 'Tụ tập buổi tối',
-                price: '150.000đ - 350.000đ/nồi.',
-                desc: 'Nước lẩu ninh từ xương bò đậm đà, ăn kèm nạm, gân, đuôi bò và rau xanh tươi ngon, thích hợp cho nhóm bạn hoặc gia đình.',
-                spot: 'Gợi ý: Lẩu bò Ba Toa (Đường 3/2), Lẩu bò Tùng (Đường 3/4), Lẩu bò Tài Ký (Đường Bùi Thị Xuân).',
+                price: '150.000đ - 350.000đ/nồi',
+                desc: 'Nước lẩu ninh từ xương bò đậm đà, ăn kèm nạm, gân, đuôi bò và rau xanh tươi ngon.',
+                spot: 'Gợi ý: Lẩu bò Ba Toa (Đường 3/2)',
                 image: 'https://mia.vn/media/uploads/blog-du-lich/lau-bo-ba-toa-2-1761092784.jpg'
             }
         ];
+
         const INITIAL_REVIEWS = [
             {
+                id: 'rev-default-1',
                 name: 'Minh Thư Nguyễn',
                 place: 'Tour Săn Mây Đồi Đa Phú',
                 rating: 5,
@@ -881,6 +862,7 @@
                 comment: 'Biển mây hôm mình đi đẹp như tranh vẽ! Bạn hướng dẫn viên chụp ảnh siêu có tâm, pha cà phê nóng giữa đồi thông lạnh 14 độ thực sự là trải nghiệm nhớ đời.'
             },
             {
+                id: 'rev-default-2',
                 name: 'Hoàng Nam Trần',
                 place: 'Hồ Tuyền Lâm & Cà Phê Túi Mơ To',
                 rating: 5,
@@ -888,36 +870,63 @@
                 comment: 'Công cụ gợi ý lịch trình 3N2Đ trên web sắp xếp cung đường rất hợp lý, không bị chạy ngược đường nên tụi mình đi được nhiều điểm mà vẫn thong thả nghỉ ngơi.'
             }
         ];
-        // -------------------- STATE --------------------
+
+        // -------------------- GLOBAL STATE --------------------
+        let destinations = [...DESTINATIONS];
+        let cuisines = [...CUISINES];
+        let reviews = [...INITIAL_REVIEWS];
         let wishlist = JSON.parse(localStorage.getItem('dalat_wishlist') || '[]');
         let cart = JSON.parse(localStorage.getItem('dalat_cart') || '[]');
-        let reviews = JSON.parse(localStorage.getItem('dalat_reviews') || JSON.stringify(INITIAL_REVIEWS));
         let currentPlannerDay = '3N2D';
+
+        // -------------------- CLOUD SYNC (FIREBASE) --------------------
+        async function fetchCloudData() {
+            try {
+                // 1. Tải Điểm đến từ Firebase và gộp với danh sách có sẵn
+                const destSnapshot = await db.collection('destinations').get();
+                const remoteDestinations = destSnapshot.empty ? [] : destSnapshot.docs.map(doc => doc.data());
+                destinations = [...remoteDestinations, ...DESTINATIONS];
+
+                // 2. Tải Ẩm thực từ Firebase và gộp với danh sách có sẵn
+                const cuisineSnapshot = await db.collection('cuisines').get();
+                const remoteCuisines = cuisineSnapshot.empty ? [] : cuisineSnapshot.docs.map(doc => doc.data());
+                cuisines = [...remoteCuisines, ...CUISINES];
+
+                // 3. Tải Đánh giá từ Firebase và gộp với danh sách có sẵn
+                const reviewSnapshot = await db.collection('reviews').get();
+                const remoteReviews = reviewSnapshot.empty ? [] : reviewSnapshot.docs.map(doc => doc.data());
+                reviews = [...remoteReviews, ...INITIAL_REVIEWS];
+
+                // Vẽ lại toàn bộ giao diện
+                renderDestinations(destinations);
+                renderCuisines(cuisines);
+                renderReviews();
+                console.log("Đã đồng bộ toàn bộ dữ liệu từ Firebase thành công!");
+            } catch (error) {
+                console.error("Lỗi khi tải dữ liệu từ Firebase:", error);
+                // Nếu mất mạng hoặc lỗi Firebase vẫn hiển thị dữ liệu mặc định
+                renderDestinations(destinations);
+                renderCuisines(cuisines);
+                renderReviews();
+            }
+        }
+
         // -------------------- INITIALIZATION --------------------
         document.addEventListener('DOMContentLoaded', () => {
             initTheme();
-            
-            // Nạp dữ liệu Địa điểm (nếu người dùng đã từng nhập trước đó)
-            const savedDest = JSON.parse(localStorage.getItem('cloud_destinations'));
-            const finalDestinations = savedDest ? savedDest : DESTINATIONS;
-            renderDestinations(finalDestinations);
-
-            // Nạp dữ liệu Ẩm thực (nếu đã từng nhập trước đó)
-            const savedCuisine = JSON.parse(localStorage.getItem('cloud_cuisines'));
-            if (savedCuisine) {
-                // Nếu có dữ liệu đã đóng góp, vẽ lại danh sách ẩm thực
-                CUISINES.length = 0;
-                Array.prototype.push.apply(CUISINES, savedCuisine);
-            }
-            renderCuisines();
-
+            renderDestinations(destinations);
+            renderCuisines(cuisines);
             renderTours();
             renderReviews();
             generateItinerary();
             updateBadges();
             initStarRating();
+
+            // Tải thêm dữ liệu đóng góp từ Firebase Cloud
+            fetchCloudData();
         });
-        // -------------------- 1. THEME (DARK/LIGHT MODE) --------------------
+
+        // -------------------- 1. THEME --------------------
         function initTheme() {
             const savedTheme = localStorage.getItem('dalat_theme');
             if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -932,23 +941,23 @@
             localStorage.setItem('dalat_theme', isDark ? 'dark' : 'light');
             document.getElementById('theme-icon').className = isDark ? 'fa-solid fa-sun text-base' : 'fa-solid fa-moon text-base';
         });
-        // Mobile Menu
+
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
             document.getElementById('mobile-menu').classList.toggle('hidden');
         });
         function closeMobileMenu() {
             document.getElementById('mobile-menu').classList.add('hidden');
         }
+
         // -------------------- 2. HERO SEARCH --------------------
         document.getElementById('hero-search-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const keyword = document.getElementById('search-keyword').value.trim().toLowerCase();
             const category = document.getElementById('search-category').value;
             const duration = document.getElementById('search-duration').value;
-            // Sync duration with itinerary planner
             selectPlannerDay(duration);
-            // Filter destinations
-            let filtered = DESTINATIONS;
+
+            let filtered = destinations;
             if (category !== 'all') {
                 filtered = filtered.filter(d => d.category === category);
             }
@@ -960,29 +969,12 @@
             document.getElementById('destinations').scrollIntoView({ behavior: 'smooth' });
             showToast(`Tìm thấy ${filtered.length} điểm đến phù hợp!`, 'info');
         });
-        // -------------------- 3. WEATHER WIDGET SIMULATION --------------------
+
+        // -------------------- 3. WEATHER WIDGET --------------------
         const WEATHER_DATA = {
-            morning: {
-                temp: '16°C',
-                desc: 'Se lạnh, sương mù nhẹ giăng lối',
-                humidity: '84% • Gió nhẹ 9 km/h',
-                outfit: 'Áo len mỏng, áo khoác trench coat & khăn choàng',
-                icon: 'fa-solid fa-cloud-sun'
-            },
-            noon: {
-                temp: '22°C',
-                desc: 'Nắng vàng dịu nhẹ, trời trong xanh',
-                humidity: '65% • Gió mát 12 km/h',
-                outfit: 'Váy vintage, áo sơ mi dài tay & kính râm',
-                icon: 'fa-solid fa-sun'
-            },
-            night: {
-                temp: '14°C',
-                desc: 'Lạnh sâu về đêm, trời quang mây',
-                humidity: '88% • Gió se lạnh 7 km/h',
-                outfit: 'Áo phao ấm, mũ len & giày boots giữ nhiệt',
-                icon: 'fa-solid fa-moon'
-            }
+            morning: { temp: '16°C', desc: 'Se lạnh, sương mù nhẹ giăng lối', humidity: '84% • Gió nhẹ 9 km/h', outfit: 'Áo len mỏng, áo khoác trench coat & khăn choàng', icon: 'fa-solid fa-cloud-sun' },
+            noon: { temp: '22°C', desc: 'Nắng vàng dịu nhẹ, trời trong xanh', humidity: '65% • Gió mát 12 km/h', outfit: 'Váy vintage, áo sơ mi dài tay & kính râm', icon: 'fa-solid fa-sun' },
+            night: { temp: '14°C', desc: 'Lạnh sâu về đêm, trời quang mây', humidity: '88% • Gió se lạnh 7 km/h', outfit: 'Áo phao ấm, mũ len & giày boots giữ nhiệt', icon: 'fa-solid fa-moon' }
         };
         function setWeatherTime(timeKey) {
             const data = WEATHER_DATA[timeKey];
@@ -992,31 +984,28 @@
             document.getElementById('weather-outfit').textContent = data.outfit;
             document.getElementById('weather-icon').className = data.icon;
             document.querySelectorAll('.weather-btn').forEach(btn => {
-                if (btn.dataset.time === timeKey) {
-                    btn.className = 'weather-btn px-2 py-0.5 rounded bg-pine-700 text-white font-medium';
-                } else {
-                    btn.className = 'weather-btn px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
-                }
+                btn.className = btn.dataset.time === timeKey
+                    ? 'weather-btn px-2 py-0.5 rounded bg-pine-700 text-white font-medium'
+                    : 'weather-btn px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300';
             });
         }
+
         // -------------------- 4. DESTINATIONS RENDER & FILTER --------------------
         function updateFilterPillUI(cat) {
             document.querySelectorAll('.filter-pill').forEach(btn => {
-                if (btn.dataset.cat === cat) {
-                    btn.className = 'filter-pill active px-4 py-2 rounded-full text-sm font-semibold bg-pine-800 text-white shadow-sm transition-all';
-                } else {
-                    btn.className = 'filter-pill px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-pine-600 transition-all';
-                }
+                btn.className = btn.dataset.cat === cat
+                    ? 'filter-pill active px-4 py-2 rounded-full text-sm font-semibold bg-pine-800 text-white shadow-sm transition-all'
+                    : 'filter-pill px-4 py-2 rounded-full text-sm font-medium bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-pine-600 transition-all';
             });
         }
         function filterDestinations(cat) {
             updateFilterPillUI(cat);
-            const list = cat === 'all' ? DESTINATIONS : DESTINATIONS.filter(d => d.category === cat);
+            const list = cat === 'all' ? destinations : destinations.filter(d => d.category === cat);
             renderDestinations(list);
         }
         function renderDestinations(list) {
             const grid = document.getElementById('destinations-grid');
-            if (list.length === 0) {
+            if (!list || list.length === 0) {
                 grid.innerHTML = `<div class="col-span-full text-center py-12 text-slate-500">Không tìm thấy điểm đến phù hợp với từ khóa. Hãy thử từ khóa khác nhé!</div>`;
                 return;
             }
@@ -1027,7 +1016,7 @@
                     <div class="relative h-56 overflow-hidden">
                         <img src="${dest.image}" onerror="this.src='https://placehold.co/600x400/065f46/ffffff?text=Da+Lat+Destination'" alt="${dest.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
                         <span class="absolute top-3.5 left-3.5 px-3 py-1 rounded-full bg-slate-950/60 backdrop-blur-md text-white text-xs font-medium">
-                            ${dest.categoryLabel}
+                            ${dest.categoryLabel || 'Điểm đến Đà Lạt'}
                         </span>
                         <button onclick="toggleWishlist('${dest.id}')" aria-label="Lưu yêu thích" class="absolute top-3.5 right-3.5 w-9 h-9 rounded-full bg-white/90 dark:bg-slate-900/90 flex items-center justify-center shadow-md hover:scale-110 transition-transform">
                             <i class="${isLiked ? 'fa-solid text-rose-500' : 'fa-regular text-slate-600 dark:text-slate-300'} fa-heart"></i>
@@ -1035,8 +1024,8 @@
                     </div>
                     <div class="p-6 flex-1 flex flex-col">
                         <div class="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 mb-2">
-                            <span class="whitespace-pre-line"><i class="fa-solid fa-ticket text-pine-600 mr-1"></i> ${dest.price}</span>
-                            <span class="font-bold text-daquy-600 dark:text-daquy-400"><i class="fa-solid fa-star mr-1"></i>${dest.rating}</span>
+                            <span class="whitespace-pre-line"><i class="fa-solid fa-ticket text-pine-600 mr-1"></i> ${dest.price || 'Miễn phí'}</span>
+                            <span class="font-bold text-daquy-600 dark:text-daquy-400"><i class="fa-solid fa-star mr-1"></i>${dest.rating || 4.8}</span>
                         </div>
                         <h3 class="font-serif text-xl font-bold text-slate-900 dark:text-white group-hover:text-pine-700 dark:group-hover:text-pine-400 transition-colors">
                             ${dest.name}
@@ -1045,7 +1034,7 @@
                             ${dest.desc}
                         </p>
                         <div class="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
-                            <span class="text-xs text-slate-400 truncate max-w-[160px]"><i class="fa-solid fa-location-dot mr-1"></i>${dest.address.split(',')[0]}</span>
+                            <span class="text-xs text-slate-400 truncate max-w-[160px]"><i class="fa-solid fa-location-dot mr-1"></i>${(dest.address || 'TP. Đà Lạt').split(',')[0]}</span>
                             <button onclick="openDetailModal('${dest.id}')" class="px-4 py-2 rounded-xl bg-pine-50 hover:bg-pine-800 text-pine-800 hover:text-white dark:bg-slate-800 dark:text-pine-400 dark:hover:bg-pine-700 dark:hover:text-white text-xs font-bold transition-colors">
                                 Xem chi tiết
                             </button>
@@ -1055,19 +1044,18 @@
                 `;
             }).join('');
         }
-        // Destination Detail Modal
+
         function openDetailModal(id) {
-            const dest = DESTINATIONS.find(d => d.id === id);
+            const dest = destinations.find(d => d.id === id);
             if (!dest) return;
             document.getElementById('modal-img').src = dest.image;
-            document.getElementById('modal-badge').textContent = dest.categoryLabel;
+            document.getElementById('modal-badge').textContent = dest.categoryLabel || 'Điểm đến Đà Lạt';
             document.getElementById('modal-title').textContent = dest.name;
-            document.getElementById('modal-rating').textContent = `${dest.rating} / 5.0`;
+            document.getElementById('modal-rating').textContent = `${dest.rating || 4.8} / 5.0`;
             document.getElementById('modal-desc').textContent = dest.desc;
-            document.getElementById('modal-address').textContent = dest.address;
-            document.getElementById('modal-hours-price').textContent = `${dest.hours} • ${dest.price}`;
-            document.getElementById('modal-hours-price').classList.add('whitespace-pre-line');
-            document.getElementById('modal-coords').textContent = `${dest.coords} • Đà Lạt, Lâm Đồng`;
+            document.getElementById('modal-address').textContent = dest.address || 'TP. Đà Lạt, Lâm Đồng';
+            document.getElementById('modal-hours-price').textContent = `${dest.hours || '07:00 - 18:00'} • ${dest.price || 'Miễn phí'}`;
+            document.getElementById('modal-coords').textContent = `${dest.coords || '11.9404° N, 108.4385° E'} • Đà Lạt, Lâm Đồng`;
             document.getElementById('modal-map-link').href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(dest.name + ' Đà Lạt')}`;
             const modal = document.getElementById('detail-modal');
             modal.classList.remove('hidden');
@@ -1078,6 +1066,7 @@
             modal.classList.add('hidden');
             modal.classList.remove('flex');
         }
+
         // -------------------- 5. TOURS RENDER --------------------
         function renderTours() {
             const grid = document.getElementById('tours-grid');
@@ -1112,15 +1101,16 @@
                 </div>
             `).join('');
         }
+
         // -------------------- 6. CUISINE RENDER --------------------
-        function renderCuisines() {
+        function renderCuisines(list = cuisines) {
             const grid = document.getElementById('cuisine-grid');
-            grid.innerHTML = CUISINES.map(item => `
+            grid.innerHTML = list.map(item => `
                 <div class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/70 dark:border-slate-800 flex flex-col transition-all">
                     <div class="h-44 overflow-hidden relative">
                         <img src="${item.image}" onerror="this.src='https://placehold.co/400x300/d97706/ffffff?text=Am+Thuc+Da+Lat'" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold">
-                            ${item.tag}
+                            ${item.tag || 'Đặc sản Đà Lạt'}
                         </span>
                     </div>
                     <div class="p-5 flex-1 flex flex-col">
@@ -1130,13 +1120,14 @@
                         <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">${item.name}</h3>
                         <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed flex-1">${item.desc}</p>
                         <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-pine-700 dark:text-pine-400">
-                            <i class="fa-solid fa-utensils mr-1"></i> ${item.spot}
+                            <i class="fa-solid fa-utensils mr-1"></i> ${item.spot || 'Gợi ý: Trung tâm Đà Lạt'}
                         </div>
                     </div>
                 </div>
             `).join('');
         }
-        // -------------------- 7. INTERACTIVE ITINERARY PLANNER --------------------
+
+        // -------------------- 7. ITINERARY PLANNER --------------------
         const ITINERARY_TEMPLATES = {
             chill: [
                 { day: 'Ngày 1: Chạm Ngõ Phố Sương', morning: 'Check-in homestay đồi thông, thưởng thức bánh căn Lệ nóng hổi.', noon: 'Ăn trưa cơm niêu Hương Việt, nghỉ ngơi thư giãn.', afternoon: 'Ngắm hoàng hôn và uống trà hoa cúc tại Tiệm Cà Phê Túi Mơ To.', evening: 'Dạo chợ đêm Đà Lạt, uống sữa đậu nành nóng & ăn bánh tráng nướng.' },
@@ -1163,14 +1154,13 @@
                 { day: 'Ngày 4: Bữa Sáng Thong Thả', morning: 'Thưởng thức Bánh mì xíu mại Hoàng Diệu trứ danh.', noon: 'Ăn trưa Cơm lam gà nướng trước khi khởi hành về.', afternoon: 'Uống cà phê ngắm phố lần cuối.', evening: 'Kết thúc chuyến Food Tour no nê.' }
             ]
         };
+
         function selectPlannerDay(day) {
             currentPlannerDay = day;
             document.querySelectorAll('.planner-day-btn').forEach(btn => {
-                if (btn.dataset.day === day) {
-                    btn.className = 'planner-day-btn py-2.5 rounded-xl text-sm font-semibold bg-daquy-500 text-slate-950 shadow-md transition-all';
-                } else {
-                    btn.className = 'planner-day-btn py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/20 transition-all';
-                }
+                btn.className = btn.dataset.day === day
+                    ? 'planner-day-btn py-2.5 rounded-xl text-sm font-semibold bg-daquy-500 text-slate-950 shadow-md transition-all'
+                    : 'planner-day-btn py-2.5 rounded-xl text-sm font-semibold bg-white/10 hover:bg-white/20 border border-white/20 transition-all';
             });
             generateItinerary();
         }
@@ -1204,7 +1194,8 @@
             document.body.removeChild(textarea);
             showToast('Đã sao chép lịch trình vào bộ nhớ tạm!', 'success');
         }
-        // -------------------- 8. WISHLIST & BOOKING CART --------------------
+
+        // -------------------- 8. WISHLIST & CART --------------------
         function toggleWishlist(destId) {
             const idx = wishlist.indexOf(destId);
             if (idx === -1) {
@@ -1216,7 +1207,7 @@
             }
             localStorage.setItem('dalat_wishlist', JSON.stringify(wishlist));
             updateBadges();
-            renderDestinations(DESTINATIONS);
+            renderDestinations(destinations);
             renderWishlistDrawer();
         }
         function addToCart(tourId) {
@@ -1345,7 +1336,7 @@
                 return;
             }
             container.innerHTML = wishlist.map(id => {
-                const dest = DESTINATIONS.find(d => d.id === id);
+                const dest = destinations.find(d => d.id === id);
                 if (!dest) return '';
                 return `
                 <div class="flex items-center gap-3 p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200 dark:border-slate-700">
@@ -1359,7 +1350,6 @@
                 </div>`;
             }).join('');
         }
-        // Checkout Submission
         document.getElementById('checkout-form').addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('cust-name').value;
@@ -1369,7 +1359,8 @@
             e.target.reset();
             showToast(`Cảm ơn ${name}! Yêu cầu đặt tour Đà Lạt của bạn đã được xác nhận. Nhân viên sẽ liên hệ trong 5 phút!`, 'success');
         });
-        // -------------------- 9. REVIEWS & STAR RATING --------------------
+
+        // -------------------- 9. REVIEWS & CONTRIBUTION FORMS (SYNC FIREBASE) --------------------
         function initStarRating() {
             const stars = document.querySelectorAll('#star-rating-input i');
             stars.forEach(star => {
@@ -1384,53 +1375,120 @@
         }
         function renderReviews() {
             const list = document.getElementById('reviews-list');
-            list.innerHTML = reviews.map(rev => `
+            list.innerHTML = reviews.map(rev => {
+                const displayName = rev.name || rev.author || 'Du khách';
+                return `
                 <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 shadow-sm border border-slate-200/70 dark:border-slate-800">
                     <div class="flex items-center justify-between gap-4 mb-3">
                         <div class="flex items-center gap-3">
                             <div class="w-10 h-10 rounded-full bg-pine-100 dark:bg-pine-900 text-pine-800 dark:text-pine-300 font-bold flex items-center justify-center">
-                                ${rev.name.charAt(0).toUpperCase()}
+                                ${displayName.charAt(0).toUpperCase()}
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm text-slate-900 dark:text-white">${rev.name}</h4>
-                                <span class="text-xs text-pine-700 dark:text-pine-400 font-medium">${rev.place || 'Du khách Đà Lạt'} • ${rev.date}</span>
+                                <h4 class="font-bold text-sm text-slate-900 dark:text-white">${displayName}</h4>
+                                <span class="text-xs text-pine-700 dark:text-pine-400 font-medium">${rev.place || 'Du khách Đà Lạt'} • ${rev.date || 'Mới đây'}</span>
                             </div>
                         </div>
                         <div class="text-daquy-500 text-xs">
-                            ${'<i class="fa-solid fa-star"></i>'.repeat(rev.rating)}
+                            ${'<i class="fa-solid fa-star"></i>'.repeat(rev.rating || 5)}
                         </div>
                     </div>
                     <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">"${rev.comment}"</p>
                 </div>
-            `).join('');
+                `;
+            }).join('');
         }
+
+        // Gửi Đánh giá mới lên Firebase
         document.getElementById('review-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
-    const newRev = {
-        id: 'review-' + Date.now(), // Thêm ID để phân biệt các document trên Firebase
-        name: document.getElementById('rev-name').value.trim(),
-        place: document.getElementById('rev-place').value.trim() || 'Khám phá Đà Lạt',
-        rating: parseInt(document.getElementById('rev-rating').value) || 5,
-        date: new Date().toLocaleDateString('vi-VN'),
-        comment: document.getElementById('rev-comment').value.trim()
-    };
+            e.preventDefault();
+            const nameEl = document.getElementById('rev-name');
+            const placeEl = document.getElementById('rev-place');
+            const ratingEl = document.getElementById('rev-rating');
+            const commentEl = document.getElementById('rev-comment');
 
-    try {
-        // [QUAN TRỌNG] Phải có dòng lệnh này để lưu lên đám mây Firebase
-        await db.collection('reviews').doc(newRev.id).set(newRev);
+            const newRev = {
+                id: 'review-cloud-' + Date.now(),
+                name: nameEl ? nameEl.value.trim() : 'Ẩn danh',
+                place: placeEl ? placeEl.value.trim() : 'Khám phá Đà Lạt',
+                rating: ratingEl ? parseInt(ratingEl.value) || 5 : 5,
+                date: new Date().toLocaleDateString('vi-VN'),
+                comment: commentEl ? commentEl.value.trim() : ''
+            };
 
-        // Đưa lên mảng hiển thị và vẽ lại giao diện
-        reviews.unshift(newRev);
-        if (typeof renderReviews === 'function') renderReviews();
+            try {
+                await db.collection('reviews').doc(newRev.id).set(newRev);
+                reviews.unshift(newRev);
+                renderReviews();
+                showToast('Đã lưu và đồng bộ đánh giá lên Firebase thành công!', 'success');
+                e.target.reset();
+            } catch (error) {
+                console.error("Lỗi khi lưu đánh giá lên Firebase:", error);
+                showToast('Không thể đồng bộ lên đám mây, vui lòng kiểm tra lại!', 'info');
+            }
+        });
 
-        showToast('Đã lưu và đồng bộ đánh giá lên Firebase thành công!', 'success');
-        e.target.reset(); // Xóa form sau khi gửi
-    } catch (error) {
-        console.error("Lỗi khi lưu đánh giá lên Firebase: ", error);
-        showToast('Không thể lưu đánh giá lên đám mây!', 'info');
-    }
-});
+        // Gửi Đóng góp Địa điểm & Ẩm thực mới lên Firebase
+        document.getElementById('dynamic-add-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const type = document.getElementById('add-type').value;
+            const name = document.getElementById('inp-name').value.trim();
+            const price = document.getElementById('inp-price').value.trim();
+            const image = document.getElementById('inp-image').value.trim();
+            const desc = document.getElementById('inp-desc').value.trim();
+
+            try {
+                if (type === 'destination') {
+                    const category = document.getElementById('inp-category').value;
+                    const catLabels = {
+                        nature: 'Thiên nhiên & Săn mây',
+                        architecture: 'Check-in & Kiến trúc',
+                        farm: 'Vườn hoa & Nông trại',
+                        cafe: 'Cà phê chill'
+                    };
+                    const newDest = {
+                        id: 'dest-cloud-' + Date.now(),
+                        name: name,
+                        category: category,
+                        categoryLabel: catLabels[category] || 'Điểm đến mới',
+                        rating: 5.0,
+                        price: price,
+                        hours: '07:00 - 18:00',
+                        address: 'TP. Đà Lạt, Lâm Đồng',
+                        coords: '11.9404° N, 108.4385° E',
+                        image: image,
+                        desc: desc
+                    };
+
+                    await db.collection('destinations').doc(newDest.id).set(newDest);
+                    destinations.unshift(newDest);
+                    renderDestinations(destinations);
+                    showToast('Đã thêm và đồng bộ điểm đến lên Firebase!', 'success');
+                } else {
+                    const newCuisine = {
+                        id: 'cuisine-cloud-' + Date.now(),
+                        name: name,
+                        tag: 'Đóng góp mới',
+                        price: price,
+                        desc: desc,
+                        spot: 'Gợi ý từ cộng đồng du khách',
+                        image: image
+                    };
+
+                    await db.collection('cuisines').doc(newCuisine.id).set(newCuisine);
+                    cuisines.unshift(newCuisine);
+                    renderCuisines(cuisines);
+                    showToast('Đã thêm và đồng bộ món ăn lên Firebase!', 'success');
+                }
+
+                e.target.reset();
+                closeAddModal();
+            } catch (error) {
+                console.error("Lỗi khi lưu đóng góp lên Firebase:", error);
+                showToast('Lỗi khi đồng bộ lên Firebase!', 'info');
+            }
+        });
+
         // -------------------- 10. NEWSLETTER & UTILITIES --------------------
         document.getElementById('newsletter-form').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -1455,209 +1513,6 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3500);
         }
-        // ==================== FIREBASE CLOUD DATABASE CONFIG ====================
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-        const firebaseConfig = {
-        apiKey: "AIzaSyAhBvDxqt2S6a4vHX93WIWkddvq2lml434",
-        authDomain: "cloud-b9c57.firebaseapp.com",
-        projectId: "cloud-b9c57",
-        storageBucket: "cloud-b9c57.firebasestorage.app",
-        messagingSenderId: "698253432014",
-        appId: "1:698253432014:web:0075eadf70a919277b2c9f",
-        measurementId: "G-DNXCV51T21"
-};
-        // Khởi tạo Firebase
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // Biến lưu trữ dữ liệu đồng bộ đám mây
-        let cloudDestinations = [...DESTINATIONS];
-        let cloudCuisines = [...CUISINES];
-
-        // 1. Tải dữ liệu từ Firestore khi mở trang
-        async function fetchCloudData() {
-            try {
-                // Lấy danh sách điểm đến từ collection 'destinations'
-                const destSnapshot = await db.collection('destinations').get();
-                if (!destSnapshot.empty) {
-                    const remoteDest = destSnapshot.docs.map(doc => doc.data());
-                    // Gộp dữ liệu mặc định và dữ liệu từ cloud (không bị trùng lặp)
-                    cloudDestinations = [...remoteDest, ...DESTINATIONS];
-                }
-                renderDestinations(cloudDestinations);
-
-                // Lấy danh sách ẩm thực từ collection 'cuisines'
-                const cuisineSnapshot = await db.collection('cuisines').get();
-                if (!cuisineSnapshot.empty) {
-                    const remoteCuisine = cuisineSnapshot.docs.map(doc => doc.data());
-                    cloudCuisines = [...remoteCuisine, ...CUISINES];
-                }
-                renderCuisinesCustom(cloudCuisines);
-
-                showToast("Đã đồng bộ dữ liệu trực tuyến từ Firebase!", "success");
-            } catch (error) {
-                console.error("Lỗi tải dữ liệu từ Firebase:", error);
-                showToast("Không thể kết nối cơ sở dữ liệu đám mây.", "info");
-            }
-        }
-
-        // Hàm render riêng cho danh sách ẩm thực có thể thay đổi
-        function renderCuisinesCustom(list) {
-            const grid = document.getElementById('cuisine-grid');
-            grid.innerHTML = list.map(item => `
-                <div class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/70 dark:border-slate-800 flex flex-col transition-all">
-                    <div class="h-44 overflow-hidden relative">
-                        <img src="${item.image}" onerror="this.src='https://placehold.co/400x300/d97706/ffffff?text=Am+Thuc+Da+Lat'" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold">
-                            ${item.tag}
-                        </span>
-                    </div>
-                    <div class="p-5 flex-1 flex flex-col">
-                        <div class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-1.5">
-                            <i class="fa-solid fa-wallet mr-1.5"></i> ${item.price}
-                        </div>
-                        <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">${item.name}</h3>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed flex-1">${item.desc}</p>
-                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-pine-700 dark:text-pine-400">
-                            <i class="fa-solid fa-utensils mr-1"></i> ${item.spot}
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // 2. Xử lý sự kiện Submit Form và lưu trực tiếp lên Firestore
-        document.addEventListener('submit', async function(e) {
-            if (e.target && e.target.id === 'dynamic-add-form') {
-                e.preventDefault();
-                
-                const type = document.getElementById('add-type').value;
-                const name = document.getElementById('inp-name').value.trim();
-                const price = document.getElementById('inp-price').value.trim();
-                const image = document.getElementById('inp-image').value.trim();
-                const desc = document.getElementById('inp-desc').value.trim();
-
-                try {
-                    if (type === 'destination') {
-                        const category = document.getElementById('inp-category').value;
-                        const catLabelMap = {
-                            nature: 'Thiên nhiên & Săn mây',
-                            architecture: 'Check-in & Kiến trúc',
-                            farm: 'Vườn hoa & Nông trại',
-                            cafe: 'Cà phê chill'
-                        };
-                        const newDest = {
-                            id: 'dest-cloud-' + Date.now(),
-                            name: name,
-                            category: category,
-                            categoryLabel: catLabelMap[category],
-                            rating: 5.0,
-                            price: price,
-                            hours: '08:00 - 18:00',
-                            address: 'Đà Lạt, Lâm Đồng',
-                            coords: '11.9404° N, 108.4583° E',
-                            image: image,
-                            desc: desc
-                        };
-
-                        // Đẩy lên Firestore collection 'destinations'
-                        await db.collection('destinations').doc(newDest.id).set(newDest);
-                        
-                        cloudDestinations.unshift(newDest);
-                        renderDestinations(cloudDestinations);
-                    } else {
-                        const newCuisine = {
-                            id: 'cuisine-cloud-' + Date.now(),
-                            name: name,
-                            tag: 'Đóng góp mới',
-                            price: price,
-                            desc: desc,
-                            spot: 'Gợi ý từ cộng đồng du lịch',
-                            image: image
-                        };
-
-                        // Đẩy lên Firestore collection 'cuisines'
-                        await db.collection('cuisines').doc(newCuisine.id).set(newCuisine);
-
-                        cloudCuisines.unshift(newCuisine);
-                        renderCuisinesCustom(cloudCuisines);
-                    }
-
-                    showToast('Đã lưu và đồng bộ lên Firebase thành công!', 'success');
-                    closeAddModal();
-                    e.target.reset();
-                } catch (error) {
-                    console.error("Lỗi khi ghi dữ liệu lên Firebase: ", error);
-                    showToast('Có lỗi khi lưu lên đám mây!', 'info');
-                }
-            }
-        });
-
-        // Gọi hàm fetchCloudData khi trang vừa tải xong
-        document.addEventListener('DOMContentLoaded', () => {
-            initTheme();
-            fetchCloudData(); // Thay thế phần render cũ bằng việc tải dữ liệu từ Cloud
-            renderTours();
-            renderReviews();
-            generateItinerary();
-            updateBadges();
-            initStarRating();
-        });
-
-        // 1. Tải dữ liệu từ Firestore khi mở trang (bao gồm cả Reviews)
-        async function fetchCloudData() {
-            try {
-                // ... (phần tải destinations và cuisines giữ nguyên) ...
-
-                // Lấy danh sách đánh giá từ collection 'reviews' trên Firebase
-                const reviewSnapshot = await db.collection('reviews').get();
-                if (!reviewSnapshot.empty) {
-                    const remoteReviews = reviewSnapshot.docs.map(doc => doc.data());
-                    // Gộp đánh giá từ cloud và đánh giá mặc định (nếu có)
-                    reviews = [...remoteReviews, ...INITIAL_REVIEWS];
-                }
-                renderReviews(); // Hàm hiển thị danh sách đánh giá lên giao diện
-
-                showToast("Đã đồng bộ dữ liệu trực tuyến từ Firebase!", "success");
-            } catch (error) {
-                console.error("Lỗi tải dữ liệu từ Firebase:", error);
-                showToast("Không thể kết nối cơ sở dữ liệu đám mây.", "info");
-            }
-        }
-
-        // Xử lý sự kiện gửi đánh giá mới
-        document.addEventListener('submit', async function(e) {
-            // Kiểm tra nếu form đang submit là form đánh giá (bạn hãy thay 'review-form' bằng ID thực tế của form đánh giá trong HTML của bạn)
-            if (e.target && e.target.id === 'review-form') { 
-                e.preventDefault();
-                
-                const author = document.getElementById('review-author').value.trim();
-                const comment = document.getElementById('review-comment').value.trim();
-                const rating = document.getElementById('review-rating')?.value || 5;
-
-                const newReview = {
-                    id: 'review-cloud-' + Date.now(),
-                    author: author,
-                    comment: comment,
-                    rating: Number(rating),
-                    date: new Date().toLocaleDateString('vi-VN')
-                };
-
-                try {
-                    // Đẩy đánh giá mới lên Firestore collection 'reviews'
-                    await db.collection('reviews').doc(newReview.id).set(newReview);
-
-                    reviews.unshift(newReview);
-                    renderReviews();
-
-                    showToast('Đã gửi đánh giá lên hệ thống thành công!', 'success');
-                    e.target.reset();
-                } catch (error) {
-                    console.error("Lỗi khi lưu đánh giá lên Firebase: ", error);
-                    showToast('Không thể gửi đánh giá lúc này!', 'info');
-                }
-            }
-        });
     </script>
 </body>
 </html>
