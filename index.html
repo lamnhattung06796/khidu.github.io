@@ -241,6 +241,12 @@
         <div id="destinations-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
             <!-- Rendered dynamically via JS -->
         </div>
+        <div class="flex items-center gap-3">
+        <!-- Các nút filter hiện tại -->
+            <button onclick="openAddModal('destination')" class="px-4 py-2 rounded-full text-sm font-bold bg-daquy-500 text-slate-950 shadow-sm hover:bg-daquy-400 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-plus"></i> Thêm Địa Điểm Mới
+            </button>
+        </div>
     </section>
     <!-- ==================== 5. TOURS & PACKAGES (TOUR & TRẢI NGHIỆM) ==================== -->
     <section id="tours" class="py-20 bg-pine-50/70 dark:bg-slate-900/50 border-y border-slate-200/60 dark:border-slate-800/60">
@@ -266,6 +272,11 @@
         </div>
         <div id="cuisine-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
             <!-- Rendered dynamically via JS -->
+        </div>
+        <div class="flex items-center gap-3">
+            <button onclick="openAddModal('cuisine')" class="px-4 py-2 rounded-full text-sm font-bold bg-daquy-500 text-slate-950 shadow-sm hover:bg-daquy-400 transition-all flex items-center gap-1.5">
+                <i class="fa-solid fa-plus"></i> Thêm Món Ăn
+            </button>
         </div>
     </section>
     <!-- ==================== 7. INTERACTIVE ITINERARY PLANNER ==================== -->
@@ -1338,6 +1349,146 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3500);
         }
+        // ==================== CLOUD SYNC & DYNAMIC ADD MODAL ====================
+        let cloudDestinations = JSON.parse(localStorage.getItem('cloud_destinations')) || [...DESTINATIONS];
+        let cloudCuisines = JSON.parse(localStorage.getItem('cloud_cuisines')) || [...CUISINES];
+
+        // Mở Modal thêm mới
+        function openAddModal(type) {
+            document.getElementById('add-type').value = type;
+            const title = type === 'destination' ? 'Thêm Địa Điểm Mới' : 'Đóng Góp Món Ăn Mới';
+            document.getElementById('add-modal-title').textContent = title;
+            document.getElementById('group-category').style.display = type === 'destination' ? 'block' : 'none';
+            document.getElementById('label-price').textContent = type === 'destination' ? 'Giá vé tham quan *' : 'Mức giá trung bình *';
+            
+            const modal = document.getElementById('add-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // Đóng Modal thêm mới
+        function closeAddModal() {
+            const modal = document.getElementById('add-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Xử lý lưu dữ liệu khi bấm nút Submit trong Modal
+        document.getElementById('dynamic-add-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const type = document.getElementById('add-type').value;
+            const name = document.getElementById('inp-name').value.trim();
+            const price = document.getElementById('inp-price').value.trim();
+            const image = document.getElementById('inp-image').value.trim();
+            const desc = document.getElementById('inp-desc').value.trim();
+
+            if (type === 'destination') {
+                const category = document.getElementById('inp-category').value;
+                const catLabelMap = {
+                    nature: 'Thiên nhiên & Săn mây',
+                    architecture: 'Check-in & Kiến trúc',
+                    farm: 'Vườn hoa & Nông trại',
+                    cafe: 'Cà phê chill'
+                };
+                const newDest = {
+                    id: 'dest-cloud-' + Date.now(),
+                    name: name,
+                    category: category,
+                    categoryLabel: catLabelMap[category],
+                    rating: 5.0,
+                    price: price,
+                    hours: '08:00 - 18:00',
+                    address: 'Đà Lạt, Lâm Đồng',
+                    coords: '11.9404° N, 108.4583° E',
+                    image: image,
+                    desc: desc
+                };
+                cloudDestinations.unshift(newDest);
+                localStorage.setItem('cloud_destinations', JSON.stringify(cloudDestinations));
+                renderDestinations(cloudDestinations);
+            } else {
+                const newCuisine = {
+                    name: name,
+                    tag: 'Đóng góp mới',
+                    price: price,
+                    desc: desc,
+                    spot: 'Gợi ý từ cộng đồng du lịch',
+                    image: image
+                };
+                cloudCuisines.unshift(newCuisine);
+                localStorage.setItem('cloud_cuisines', JSON.stringify(cloudCuisines));
+                // Cập nhật lại danh sách món ăn hiển thị
+                const grid = document.getElementById('cuisine-grid');
+                grid.innerHTML = cloudCuisines.map(item => `
+                    <div class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/70 dark:border-slate-800 flex flex-col transition-all">
+                        <div class="h-44 overflow-hidden relative">
+                            <img src="${item.image}" onerror="this.src='https://placehold.co/400x300/d97706/ffffff?text=Am+Thuc+Da+Lat'" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold">
+                                ${item.tag}
+                            </span>
+                        </div>
+                        <div class="p-5 flex-1 flex flex-col">
+                            <div class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-1.5">
+                                <i class="fa-solid fa-wallet mr-1.5"></i> ${item.price}
+                            </div>
+                            <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">${item.name}</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed flex-1">${item.desc}</p>
+                            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-pine-700 dark:text-pine-400">
+                                <i class="fa-solid fa-utensils mr-1"></i> ${item.spot}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            showToast('Đã lưu thông tin mới thành công!', 'success');
+            closeAddModal();
+            e.target.reset();
+        });
     </script>
+    <!-- ==================== MODAL: ADD CUSTOM DESTINATION OR CUISINE ==================== -->
+<div id="add-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+    <div class="bg-white dark:bg-slate-900 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-slate-200 dark:border-slate-800 relative">
+        <button onclick="closeAddModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-300">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <h3 id="add-modal-title" class="font-serif text-2xl font-bold text-slate-900 dark:text-white mb-2">Thêm Địa Điểm Mới</h3>
+        <p class="text-xs text-slate-500 mb-6">Thông tin bạn đóng góp sẽ được lưu trữ trực tuyến lên hệ thống chung.</p>
+        
+        <form id="dynamic-add-form" class="space-y-4">
+            <input type="hidden" id="add-type" value="destination">
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Tên địa điểm / món ăn *</label>
+                <input type="text" id="inp-name" required placeholder="VD: Đồi Mây Cầu Đất..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+            </div>
+            <div id="group-category">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Loại hình</label>
+                <select id="inp-category" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                    <option value="nature">Thiên nhiên & Săn mây</option>
+                    <option value="architecture">Check-in & Kiến trúc</option>
+                    <option value="farm">Vườn hoa & Nông trại</option>
+                    <option value="cafe">Cà phê chill</option>
+                </select>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1" id="label-price">Giá vé / Chi phí *</label>
+                    <input type="text" id="inp-price" required placeholder="VD: 50.000đ" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Link Hình Ảnh (URL) *</label>
+                    <input type="url" id="inp-image" required placeholder="https://..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm">
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 mb-1">Mô tả chi tiết *</label>
+                <textarea id="inp-desc" rows="3" required placeholder="Nhập mô tả hấp dẫn về địa điểm hoặc món ăn..." class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sm"></textarea>
+            </div>
+            <button type="submit" class="w-full py-3 rounded-xl bg-pine-800 hover:bg-pine-700 text-white font-semibold text-sm shadow-md transition-all">
+                Gửi
+            </button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
