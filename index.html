@@ -1404,21 +1404,33 @@
                 </div>
             `).join('');
         }
-        document.getElementById('review-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const newRev = {
-                name: document.getElementById('rev-name').value.trim(),
-                place: document.getElementById('rev-place').value.trim() || 'Khám phá Đà Lạt',
-                rating: parseInt(document.getElementById('rev-rating').value) || 5,
-                date: 'Vừa xong',
-                comment: document.getElementById('rev-comment').value.trim()
-            };
-            reviews.unshift(newRev);
-            localStorage.setItem('dalat_reviews', JSON.stringify(reviews));
-            renderReviews();
-            e.target.reset();
-            showToast('Cảm ơn bạn đã chia sẻ đánh giá tuyệt vời!', 'success');
-        });
+        document.getElementById('review-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const newRev = {
+        id: 'review-' + Date.now(), // Thêm ID để phân biệt các document trên Firebase
+        name: document.getElementById('rev-name').value.trim(),
+        place: document.getElementById('rev-place').value.trim() || 'Khám phá Đà Lạt',
+        rating: parseInt(document.getElementById('rev-rating').value) || 5,
+        date: new Date().toLocaleDateString('vi-VN'),
+        comment: document.getElementById('rev-comment').value.trim()
+    };
+
+    try {
+        // [QUAN TRỌNG] Phải có dòng lệnh này để lưu lên đám mây Firebase
+        await db.collection('reviews').doc(newRev.id).set(newRev);
+
+        // Đưa lên mảng hiển thị và vẽ lại giao diện
+        reviews.unshift(newRev);
+        if (typeof renderReviews === 'function') renderReviews();
+
+        showToast('Đã lưu và đồng bộ đánh giá lên Firebase thành công!', 'success');
+        e.target.reset(); // Xóa form sau khi gửi
+    } catch (error) {
+        console.error("Lỗi khi lưu đánh giá lên Firebase: ", error);
+        showToast('Không thể lưu đánh giá lên đám mây!', 'info');
+    }
+});
         // -------------------- 10. NEWSLETTER & UTILITIES --------------------
         document.getElementById('newsletter-form').addEventListener('submit', (e) => {
             e.preventDefault();
