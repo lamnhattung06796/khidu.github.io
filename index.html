@@ -1591,6 +1591,61 @@
             updateBadges();
             initStarRating();
         });
+
+        // 1. Tải dữ liệu từ Firestore khi mở trang (bao gồm cả Reviews)
+        async function fetchCloudData() {
+            try {
+                // ... (phần tải destinations và cuisines giữ nguyên) ...
+
+                // Lấy danh sách đánh giá từ collection 'reviews' trên Firebase
+                const reviewSnapshot = await db.collection('reviews').get();
+                if (!reviewSnapshot.empty) {
+                    const remoteReviews = reviewSnapshot.docs.map(doc => doc.data());
+                    // Gộp đánh giá từ cloud và đánh giá mặc định (nếu có)
+                    reviews = [...remoteReviews, ...INITIAL_REVIEWS];
+                }
+                renderReviews(); // Hàm hiển thị danh sách đánh giá lên giao diện
+
+                showToast("Đã đồng bộ dữ liệu trực tuyến từ Firebase!", "success");
+            } catch (error) {
+                console.error("Lỗi tải dữ liệu từ Firebase:", error);
+                showToast("Không thể kết nối cơ sở dữ liệu đám mây.", "info");
+            }
+        }
+
+        // Xử lý sự kiện gửi đánh giá mới
+        document.addEventListener('submit', async function(e) {
+            // Kiểm tra nếu form đang submit là form đánh giá (bạn hãy thay 'review-form' bằng ID thực tế của form đánh giá trong HTML của bạn)
+            if (e.target && e.target.id === 'review-form') { 
+                e.preventDefault();
+                
+                const author = document.getElementById('review-author').value.trim();
+                const comment = document.getElementById('review-comment').value.trim();
+                const rating = document.getElementById('review-rating')?.value || 5;
+
+                const newReview = {
+                    id: 'review-cloud-' + Date.now(),
+                    author: author,
+                    comment: comment,
+                    rating: Number(rating),
+                    date: new Date().toLocaleDateString('vi-VN')
+                };
+
+                try {
+                    // Đẩy đánh giá mới lên Firestore collection 'reviews'
+                    await db.collection('reviews').doc(newReview.id).set(newReview);
+
+                    reviews.unshift(newReview);
+                    renderReviews();
+
+                    showToast('Đã gửi đánh giá lên hệ thống thành công!', 'success');
+                    e.target.reset();
+                } catch (error) {
+                    console.error("Lỗi khi lưu đánh giá lên Firebase: ", error);
+                    showToast('Không thể gửi đánh giá lúc này!', 'info');
+                }
+            }
+        });
     </script>
 </body>
 </html>
