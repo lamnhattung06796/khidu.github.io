@@ -15,6 +15,11 @@
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Firebase App SDK (Core) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <!-- Firebase Firestore Database -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     
     <!-- Tailwind Configuration -->
     <script>
@@ -1406,32 +1411,79 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3500);
         }
-        // ==================== CLOUD SYNC & DYNAMIC ADD MODAL ====================
-        let cloudDestinations = JSON.parse(localStorage.getItem('cloud_destinations')) || [...DESTINATIONS];
-        let cloudCuisines = JSON.parse(localStorage.getItem('cloud_cuisines')) || [...CUISINES];
+        // ==================== FIREBASE CLOUD DATABASE CONFIG ====================
+        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+        const firebaseConfig = {
+        apiKey: "AIzaSyAhBvDxqt2S6a4vHX93WIWkddvq2lml434",
+        authDomain: "cloud-b9c57.firebaseapp.com",
+        projectId: "cloud-b9c57",
+        storageBucket: "cloud-b9c57.firebasestorage.app",
+        messagingSenderId: "698253432014",
+        appId: "1:698253432014:web:0075eadf70a919277b2c9f",
+        measurementId: "G-DNXCV51T21"
+};
+        // Khởi tạo Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        // Mở Modal thêm mới
-        function openAddModal(type) {
-            document.getElementById('add-type').value = type;
-            const title = type === 'destination' ? 'Thêm Địa Điểm Mới' : 'Đóng Góp Món Ăn Mới';
-            document.getElementById('add-modal-title').textContent = title;
-            document.getElementById('group-category').style.display = type === 'destination' ? 'block' : 'none';
-            document.getElementById('label-price').textContent = type === 'destination' ? 'Giá vé tham quan *' : 'Mức giá trung bình *';
-            
-            const modal = document.getElementById('add-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
+        // Biến lưu trữ dữ liệu đồng bộ đám mây
+        let cloudDestinations = [...DESTINATIONS];
+        let cloudCuisines = [...CUISINES];
+
+        // 1. Tải dữ liệu từ Firestore khi mở trang
+        async function fetchCloudData() {
+            try {
+                // Lấy danh sách điểm đến từ collection 'destinations'
+                const destSnapshot = await db.collection('destinations').get();
+                if (!destSnapshot.empty) {
+                    const remoteDest = destSnapshot.docs.map(doc => doc.data());
+                    // Gộp dữ liệu mặc định và dữ liệu từ cloud (không bị trùng lặp)
+                    cloudDestinations = [...remoteDest, ...DESTINATIONS];
+                }
+                renderDestinations(cloudDestinations);
+
+                // Lấy danh sách ẩm thực từ collection 'cuisines'
+                const cuisineSnapshot = await db.collection('cuisines').get();
+                if (!cuisineSnapshot.empty) {
+                    const remoteCuisine = cuisineSnapshot.docs.map(doc => doc.data());
+                    cloudCuisines = [...remoteCuisine, ...CUISINES];
+                }
+                renderCuisinesCustom(cloudCuisines);
+
+                showToast("Đã đồng bộ dữ liệu trực tuyến từ Firebase!", "success");
+            } catch (error) {
+                console.error("Lỗi tải dữ liệu từ Firebase:", error);
+                showToast("Không thể kết nối cơ sở dữ liệu đám mây.", "info");
+            }
         }
 
-        // Đóng Modal thêm mới
-        function closeAddModal() {
-            const modal = document.getElementById('add-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
+        // Hàm render riêng cho danh sách ẩm thực có thể thay đổi
+        function renderCuisinesCustom(list) {
+            const grid = document.getElementById('cuisine-grid');
+            grid.innerHTML = list.map(item => `
+                <div class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/70 dark:border-slate-800 flex flex-col transition-all">
+                    <div class="h-44 overflow-hidden relative">
+                        <img src="${item.image}" onerror="this.src='https://placehold.co/400x300/d97706/ffffff?text=Am+Thuc+Da+Lat'" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold">
+                            ${item.tag}
+                        </span>
+                    </div>
+                    <div class="p-5 flex-1 flex flex-col">
+                        <div class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-1.5">
+                            <i class="fa-solid fa-wallet mr-1.5"></i> ${item.price}
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">${item.name}</h3>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed flex-1">${item.desc}</p>
+                        <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-pine-700 dark:text-pine-400">
+                            <i class="fa-solid fa-utensils mr-1"></i> ${item.spot}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
- // Lắng nghe sự kiện submit form an toàn (không bao giờ lỗi null)
-        document.addEventListener('submit', function(e) {
+        // 2. Xử lý sự kiện Submit Form và lưu trực tiếp lên Firestore
+        document.addEventListener('submit', async function(e) {
             if (e.target && e.target.id === 'dynamic-add-form') {
                 e.preventDefault();
                 
@@ -1441,73 +1493,71 @@
                 const image = document.getElementById('inp-image').value.trim();
                 const desc = document.getElementById('inp-desc').value.trim();
 
-                if (type === 'destination') {
-                    const category = document.getElementById('inp-category').value;
-                    const catLabelMap = {
-                        nature: 'Thiên nhiên & Săn mây',
-                        architecture: 'Check-in & Kiến trúc',
-                        farm: 'Vườn hoa & Nông trại',
-                        cafe: 'Cà phê chill'
-                    };
-                    const newDest = {
-                        id: 'dest-cloud-' + Date.now(),
-                        name: name,
-                        category: category,
-                        categoryLabel: catLabelMap[category],
-                        rating: 5.0,
-                        price: price,
-                        hours: '08:00 - 18:00',
-                        address: 'Đà Lạt, Lâm Đồng',
-                        coords: '11.9404° N, 108.4583° E',
-                        image: image,
-                        desc: desc
-                    };
-                    
-                    let currentList = JSON.parse(localStorage.getItem('cloud_destinations')) || DESTINATIONS;
-                    currentList.unshift(newDest);
-                    localStorage.setItem('cloud_destinations', JSON.stringify(currentList));
-                    renderDestinations(currentList);
-                } else {
-                    const newCuisine = {
-                        name: name,
-                        tag: 'Đóng góp mới',
-                        price: price,
-                        desc: desc,
-                        spot: 'Gợi ý từ cộng đồng du lịch',
-                        image: image
-                    };
-                    
-                    let currentCuisineList = JSON.parse(localStorage.getItem('cloud_cuisines')) || CUISINES;
-                    currentCuisineList.unshift(newCuisine);
-                    localStorage.setItem('cloud_cuisines', JSON.stringify(currentCuisineList));
-                    
-                    const grid = document.getElementById('cuisine-grid');
-                    grid.innerHTML = currentCuisineList.map(item => `
-                        <div class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-lg border border-slate-200/70 dark:border-slate-800 flex flex-col transition-all">
-                            <div class="h-44 overflow-hidden relative">
-                                <img src="${item.image}" onerror="this.src='https://placehold.co/400x300/d97706/ffffff?text=Am+Thuc+Da+Lat'" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-daquy-500 text-slate-950 text-[11px] font-bold">
-                                    ${item.tag}
-                                </span>
-                            </div>
-                            <div class="p-5 flex-1 flex flex-col">
-                                <div class="flex items-center text-emerald-600 dark:text-emerald-400 text-xs font-semibold mb-1.5">
-                                    <i class="fa-solid fa-wallet mr-1.5"></i> ${item.price}
-                                </div>
-                                <h3 class="font-serif text-lg font-bold text-slate-900 dark:text-white">${item.name}</h3>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 mt-2 leading-relaxed flex-1">${item.desc}</p>
-                                <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-semibold text-pine-700 dark:text-pine-400">
-                                    <i class="fa-solid fa-utensils mr-1"></i> ${item.spot}
-                                </div>
-                            </div>
-                        </div>
-                    `).join('');
-                }
+                try {
+                    if (type === 'destination') {
+                        const category = document.getElementById('inp-category').value;
+                        const catLabelMap = {
+                            nature: 'Thiên nhiên & Săn mây',
+                            architecture: 'Check-in & Kiến trúc',
+                            farm: 'Vườn hoa & Nông trại',
+                            cafe: 'Cà phê chill'
+                        };
+                        const newDest = {
+                            id: 'dest-cloud-' + Date.now(),
+                            name: name,
+                            category: category,
+                            categoryLabel: catLabelMap[category],
+                            rating: 5.0,
+                            price: price,
+                            hours: '08:00 - 18:00',
+                            address: 'Đà Lạt, Lâm Đồng',
+                            coords: '11.9404° N, 108.4583° E',
+                            image: image,
+                            desc: desc
+                        };
 
-                showToast('Đã lưu thông tin mới thành công!', 'success');
-                closeAddModal();
-                e.target.reset();
+                        // Đẩy lên Firestore collection 'destinations'
+                        await db.collection('destinations').doc(newDest.id).set(newDest);
+                        
+                        cloudDestinations.unshift(newDest);
+                        renderDestinations(cloudDestinations);
+                    } else {
+                        const newCuisine = {
+                            id: 'cuisine-cloud-' + Date.now(),
+                            name: name,
+                            tag: 'Đóng góp mới',
+                            price: price,
+                            desc: desc,
+                            spot: 'Gợi ý từ cộng đồng du lịch',
+                            image: image
+                        };
+
+                        // Đẩy lên Firestore collection 'cuisines'
+                        await db.collection('cuisines').doc(newCuisine.id).set(newCuisine);
+
+                        cloudCuisines.unshift(newCuisine);
+                        renderCuisinesCustom(cloudCuisines);
+                    }
+
+                    showToast('Đã lưu và đồng bộ lên Firebase thành công!', 'success');
+                    closeAddModal();
+                    e.target.reset();
+                } catch (error) {
+                    console.error("Lỗi khi ghi dữ liệu lên Firebase: ", error);
+                    showToast('Có lỗi khi lưu lên đám mây!', 'info');
+                }
             }
+        });
+
+        // Gọi hàm fetchCloudData khi trang vừa tải xong
+        document.addEventListener('DOMContentLoaded', () => {
+            initTheme();
+            fetchCloudData(); // Thay thế phần render cũ bằng việc tải dữ liệu từ Cloud
+            renderTours();
+            renderReviews();
+            generateItinerary();
+            updateBadges();
+            initStarRating();
         });
     </script>
     <!-- ==================== MODAL: ADD CUSTOM DESTINATION OR CUISINE ==================== -->
